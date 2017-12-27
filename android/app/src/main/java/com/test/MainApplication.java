@@ -13,7 +13,6 @@ import java.util.List;
 import java.io.*;
 
 public class MainApplication extends Application implements ReactApplication {
-
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
         public static final String JS_BUNDLE_LOCAL_PATH = "/data/user/0/com.stdnative/files/index.android.bundle";
@@ -35,7 +34,10 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-            return Arrays.<ReactPackage>asList(new MainReactPackage(), new CommonReactPackage());
+            return Arrays.<ReactPackage>asList(
+                new MainReactPackage(), 
+                new CommonReactPackage()
+            );
         }
 
         @Override
@@ -54,4 +56,6 @@ public class MainApplication extends Application implements ReactApplication {
         super.onCreate();
         SoLoader.init(this, /* native exopackage */ false);
     }
+
+    
 }

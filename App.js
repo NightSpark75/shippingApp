@@ -4,56 +4,84 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Platform,
   StyleSheet,
   Text,
+  TextInput,
+  Button,
   View,
-  Dimensions,
-} from 'react-native';
+  NativeModules,
+  DeviceEventEmitter,
+} from 'react-native'  
+const dismissKeyboard = require('dismissKeyboard')
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const TestFunc = NativeModules.TestFunc
 
-export default class App extends Component<{}> {
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        str: 'default',
+        text: '',
+    };
+  }
+
+  componentDidMount() {
+    DeviceEventEmitter.addListener('onRefreshMessage', this.onUpdateMessage)
+    TestFunc.enabledScan()
+  }
+  componentWillUnmount() {
+    DeviceEventEmitter.removeListener('onRefreshMessage', this.onUpdateMessage)
+    TestFunc.disabledScan()
+  }
+
+  onUpdateMessage = (e) => {
+    alert(e)
+    this.setState({str: e})
+  }
+
+  enabledScan()
+  {
+    TestFunc.enabledScan()
+  }
+
+  disabledScan()
+  {
+    TestFunc.disabledScan()
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          掃描模組測試程式
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
+        <Button 
+          style={styles.button}
+          onPress={this.enabledScan.bind(this)}
+          title="開啟掃描模組"
+        >
+        </Button>
+        <Text style={styles.welcome}>
+          {this.state.str}
         </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-        <Text style={styles.instructions}>
-          {'test info'}
-        </Text>
-        <Text style={styles.instructions}>
-          {Dimensions.get('window').width}
-        </Text>
-        <Text style={styles.instructions}>
-          {Dimensions.get('window').height}
-        </Text>
-        <Text style={styles.instructions}>
-          {Platform.OS}
-        </Text>
+        <Button 
+          style={styles.button}
+          onPress={this.disabledScan.bind(this)}
+          title="關閉掃描模組"
+        >
+        </Button>
       </View>
-    );
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    //justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
@@ -62,9 +90,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  button: {
+    margin: 20,
+  }
 });

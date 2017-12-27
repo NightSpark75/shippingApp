@@ -26,6 +26,8 @@ class CommonReactPackage implements ReactPackage {
 		List<NativeModule> modules = new ArrayList<>();
 
 		//modules.add(new Common(reactContext));
+		//modules.add(new SDLguictivity(reactContext));
+		modules.add(new TestFunc(reactContext));
 
 		return modules;
 	}
