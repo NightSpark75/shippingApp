@@ -73,6 +73,9 @@ export default class App extends Component {
           title="關閉掃描模組"
         >
         </Button>
+        <Text>目前螢幕寬度:{Dimensions.get('window').width}</Text>
+        <Text>目前螢幕高度:{Dimensions.get('window').height}</Text> 
+        <Text>目前螢幕解析度:{Dimensions.get('window').scale}</Text>
       </View>
     )
   }
