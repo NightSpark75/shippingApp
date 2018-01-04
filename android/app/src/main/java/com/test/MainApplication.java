@@ -1,4 +1,4 @@
-package com.test;
+package com.pda;
 
 import android.app.Application;
 

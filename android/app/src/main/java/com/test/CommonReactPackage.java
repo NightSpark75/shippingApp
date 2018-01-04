@@ -1,4 +1,4 @@
-package com.test;
+package com.pda;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -27,7 +27,7 @@ class CommonReactPackage implements ReactPackage {
 
 		//modules.add(new Common(reactContext));
 		//modules.add(new SDLguictivity(reactContext));
-		modules.add(new TestFunc(reactContext));
+		modules.add(new ScanModule(reactContext));
 
 		return modules;
 	}

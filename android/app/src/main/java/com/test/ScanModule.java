@@ -1,4 +1,4 @@
-package com.test;
+package com.pda;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -10,33 +10,30 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import static com.test.datawedge.EXTRA_PARAMETER;
-import android.widget.Toast;
+import static com.pda.datawedge.EXTRA_PARAMETER;
 
 
-public class TestFunc extends ReactContextBaseJavaModule {
+public class ScanModule extends ReactContextBaseJavaModule {
 
 	private IntentFilter intentFilter = new IntentFilter("DATA_SCAN");
 	private BarcodeDataBroadcastReceiver intentBarcodeDataReceiver = new BarcodeDataBroadcastReceiver();
 
-	TestFunc(ReactApplicationContext reactContext) {
+	ScanModule(ReactApplicationContext reactContext) {
 		super(reactContext);
 	}
 
 	private class BarcodeDataBroadcastReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
-			String Barcode = arg1.getStringExtra(com.test.datawedge.DATA_STRING);
-			int type = arg1.getIntExtra(com.test.datawedge.DATA_TYPE, 0);
-			int length = arg1.getIntExtra(com.test.datawedge.DATA_LENGTH, 0);
-			//Toast.makeText(getReactApplicationContext(), Barcode, Toast.LENGTH_SHORT).show();
+			String Barcode = arg1.getStringExtra(datawedge.DATA_STRING);
+			int type = arg1.getIntExtra(datawedge.DATA_TYPE, 0);
+			int length = arg1.getIntExtra(datawedge.DATA_LENGTH, 0);
 			sendEvent(getReactApplicationContext(), "onRefreshMessage", Barcode);
 		}
 	}
 
 	@ReactMethod
 	public void setLog(String str) {
-		System.out.println(str);
 		sendEvent(getReactApplicationContext(), "onRefreshMessage", str);
 	}
 
@@ -47,23 +44,6 @@ public class TestFunc extends ReactContextBaseJavaModule {
     	reactContext
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(eventName, str);
-	}
-
-	@ReactMethod
-	public void test() {
-		//getReactApplicationContext().registerReceiver(intentBarcodeDataReceiver, intentFilter);
-		/*
-		this.context.registerReceiver(new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context arg0, Intent arg1) {
-				String Barcode = arg1.getStringExtra(com.test.datawedge.DATA_STRING);
-				int type = arg1.getIntExtra(com.test.datawedge.DATA_TYPE, 0);
-				int length = arg1.getIntExtra(com.test.datawedge.DATA_LENGTH, 0);
-				Toast.makeText(getReactApplicationContext(), Barcode, Toast.LENGTH_SHORT).show();
-			}
-		},intentFilter);
-		*/
-		EnableScanner();
 	}
 
 	@ReactMethod
@@ -88,7 +68,7 @@ public class TestFunc extends ReactContextBaseJavaModule {
 		getReactApplicationContext().sendBroadcast(TriggerButtonIntent);
 
 		Intent i = new Intent();
-		i.setAction(com.test.datawedge.SCANNERINPUTPLUGIN);
+		i.setAction(datawedge.SCANNERINPUTPLUGIN);
 		i.putExtra(EXTRA_PARAMETER, datawedge.DISABLE_PLUGIN);
 		getReactApplicationContext().sendBroadcast(i);
 	}
@@ -119,6 +99,6 @@ public class TestFunc extends ReactContextBaseJavaModule {
 
     @Override
 	public String getName() {
-		return "TestFunc";
+		return "ScanModule";
 	}
 }

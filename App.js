@@ -14,10 +14,11 @@ import {
   View,
   NativeModules,
   DeviceEventEmitter,
+  Dimensions,
 } from 'react-native'  
 const dismissKeyboard = require('dismissKeyboard')
 
-const TestFunc = NativeModules.TestFunc
+const ScanModule = NativeModules.ScanModule
 
 export default class App extends Component {
   constructor(props) {
@@ -30,11 +31,11 @@ export default class App extends Component {
 
   componentDidMount() {
     DeviceEventEmitter.addListener('onRefreshMessage', this.onUpdateMessage)
-    TestFunc.enabledScan()
+    ScanModule.enabledScan()
   }
   componentWillUnmount() {
     DeviceEventEmitter.removeListener('onRefreshMessage', this.onUpdateMessage)
-    TestFunc.disabledScan()
+    ScanModule.disabledScan()
   }
 
   onUpdateMessage = (e) => {
@@ -44,12 +45,12 @@ export default class App extends Component {
 
   enabledScan()
   {
-    TestFunc.enabledScan()
+    ScanModule.enabledScan()
   }
 
   disabledScan()
   {
-    TestFunc.disabledScan()
+    ScanModule.disabledScan()
   }
 
   render() {

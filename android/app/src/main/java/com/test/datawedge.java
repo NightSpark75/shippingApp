@@ -1,20 +1,20 @@
-package com.test;
+package com.pda;
 
 public class datawedge {
 
     //SDC-Decoder
-    public static final String ENABLE_SDC_PREVIEW 					= "ENABLE_SDC_PREVIEW";
-    public static final String DISABLE_SDC_PREVIEW 					= "DISABLE_SDC_PREVIEW";
-    public static final String SET_SDC_LICENSE						= "SET_SDC_LICENSE";
-    public static final String SET_SDC_FOCUSMODE 					= "SET_SDC_FOCUSMODE";
-    public static final String ENABLE_SDC_FLASH 						= "ENABLE_SDC_FLASH";
-    public static final String DISABLE_SDC_FLASH 					= "DISABLE_SDC_FLASH";
-    public static final String PARAM									= "PARAM";
-    public static final String FOCUS_MODE_AUTO						= "auto";
-    public static final String FOCUS_MODE_INFINITY					= "infinity";
+    public static final String ENABLE_SDC_PREVIEW 				= "ENABLE_SDC_PREVIEW";
+    public static final String DISABLE_SDC_PREVIEW 				= "DISABLE_SDC_PREVIEW";
+    public static final String SET_SDC_LICENSE					= "SET_SDC_LICENSE";
+    public static final String SET_SDC_FOCUSMODE 				= "SET_SDC_FOCUSMODE";
+    public static final String ENABLE_SDC_FLASH 				= "ENABLE_SDC_FLASH";
+    public static final String DISABLE_SDC_FLASH 				= "DISABLE_SDC_FLASH";
+    public static final String PARAM							= "PARAM";
+    public static final String FOCUS_MODE_AUTO					= "auto";
+    public static final String FOCUS_MODE_INFINITY				= "infinity";
     public static final String FOCUS_MODE_MACRO					= "macro";
-    public static final String FOCUS_MODE_FIXED						= "fixed";
-    public static final String FOCUS_MODE_EDOF						= "edof";
+    public static final String FOCUS_MODE_FIXED					= "fixed";
+    public static final String FOCUS_MODE_EDOF					= "edof";
     public static final String FOCUS_MODE_CONTINUOUS_VIDEO		= "continuous-video";
 
     // action SCANNERINPUTPLUGIN
@@ -104,9 +104,9 @@ public class datawedge {
     public static final String ENABLE_ISBT_CONCAT 				= "ENABLE_ISBT_CONCAT";
     public static final String ISBT_CONCAT_ENABLED 				= "ISBT_CONCAT_ENABLED";
 
-    public static final String DISABLE_ISBT_TABLE 		= "DISABLE_ISBT_TABLE";
-    public static final String ENABLE_ISBT_TABLE 		= "ENABLE_TABLE_REDUN";
-    public static final String ISBT_TABLE_ENABLED 		= "ISBT_TABLE_ENABLED";
+    public static final String DISABLE_ISBT_TABLE 		        = "DISABLE_ISBT_TABLE";
+    public static final String ENABLE_ISBT_TABLE 		        = "ENABLE_TABLE_REDUN";
+    public static final String ISBT_TABLE_ENABLED 		        = "ISBT_TABLE_ENABLED";
 
     //CODE 11 FAMILY
     public static final String DISABLE_CODE11 					= "DISABLE_CODE11";
@@ -167,10 +167,10 @@ public class datawedge {
     public static final String DISABLE_UPCA_REPORT_CHK_DGT 		= "DISABLE_UPCA_REPORT_CHK_DGT";
     public static final String ENABLE_UPCA_REPORT_CHK_DGT 		= "ENABLE_UPCA_REPORT_CHK_DGT";
 
-    public static final String DISABLE_UPCA_PREAMBLE 				= "DISABLE_UPCA_PREAMBLE";						//Disable Preamble
-    public static final String ENABLE_UPCA_PREAMBLE 				= "ENABLE_UPCA_PREAMBLE";						//Enable Preamble - Sys Char ONLY
+    public static final String DISABLE_UPCA_PREAMBLE 			= "DISABLE_UPCA_PREAMBLE";						//Disable Preamble
+    public static final String ENABLE_UPCA_PREAMBLE 			= "ENABLE_UPCA_PREAMBLE";						//Enable Preamble - Sys Char ONLY
     public static final String ENABLE_UPCA_PREAMBLE_COUNTSYS 	= "ENABLE_UPCA_PREAMBLE_COUNTSYS";			//Enable Preamble - Country Code and Sys Char
-    public static final String UPCA_PREAMBLE_ENABLED 				= "UPCA_PREAMBLE_ENABLED";
+    public static final String UPCA_PREAMBLE_ENABLED 			= "UPCA_PREAMBLE_ENABLED";
 
     public static final String DISABLE_UPCE 					= "DISABLE_UPCE";
     public static final String ENABLE_UPCE 						= "ENABLE_UPCE";
@@ -217,32 +217,32 @@ public class datawedge {
     public static final String ENABLE_EAN13 					= "ENABLE_EAN13";
     public static final String EAN13_ENABLED 					= "EAN13_ENABLED";
 
-    public static final String DISABLE_EAN13_SUPP					= "DISABLE_EAN13_SUPP";
-    public static final String ENABLE_EAN13_SUPP						= "ENABLE_EAN13_SUPP";
+    public static final String DISABLE_EAN13_SUPP				= "DISABLE_EAN13_SUPP";
+    public static final String ENABLE_EAN13_SUPP				= "ENABLE_EAN13_SUPP";
 
     public static final String DISABLE_BOOKLAND_ISBN 			= "DISABLE_BOOKLAND_ISBN";
     public static final String ENABLE_BOOKLAND_ISBN 			= "ENABLE_BOOKLAND_ISBN";
     public static final String BOOKLAND_ISBN_ENABLED 			= "BOOKLAND_ISBN_ENABLED";
 
     public static final String DISABLE_BOOKLAND_EAN 			= "DISABLE_BOOKLAND_EAN";
-    public static final String ENABLE_BOOKLAND_EAN 			= "ENABLE_BOOKLAND_EAN";
+    public static final String ENABLE_BOOKLAND_EAN 			    = "ENABLE_BOOKLAND_EAN";
     public static final String BOOKLAND_EAN_ENABLED 			= "BOOKLAND_EAN_ENABLED";
 
     public static final String DISABLE_UCC_EXT_CODE 			= "DISABLE_UCC_EXT_CODE";
     public static final String ENABLE_UCC_EXT_CODE 				= "ENABLE_UCC_EXT_CODE";
     public static final String UCC_EXT_CODE_ENABLED 			= "UCC_EXT_CODE_ENABLED";
 
-    public static final String DISABLE_ISSN_EAN 			= "DISABLE_ISSN_EAN";
-    public static final String ENABLE_ISSN_EAN 				= "ENABLE_ISSN_EAN";
-    public static final String ISSN_EAN_ENABLED 			= "ISSN_EAN_ENABLED";
+    public static final String DISABLE_ISSN_EAN 			    = "DISABLE_ISSN_EAN";
+    public static final String ENABLE_ISSN_EAN 				    = "ENABLE_ISSN_EAN";
+    public static final String ISSN_EAN_ENABLED 			    = "ISSN_EAN_ENABLED";
 
     public static final String DISABLE_MSI 						= "DISABLE_MSI";
     public static final String ENABLE_MSI 						= "ENABLE_MSI";
     public static final String MSI_ENABLED 						= "MSI_ENABLED";
 
-    public static final String DISABLE_MSI_REPORT_CHK_DGT 						= "DISABLE_MSI_REPORT_CHK_DGT";
-    public static final String ENABLE_MSI_REPORT_CHK_DGT 						= "ENABLE_MSI_REPORT_CHK_DGT";
-    public static final String MSI_REPORT_CHK_DGT_ENABLED 						= "MSI_REPORT_CHK_DGT_ENABLED";
+    public static final String DISABLE_MSI_REPORT_CHK_DGT 		= "DISABLE_MSI_REPORT_CHK_DGT";
+    public static final String ENABLE_MSI_REPORT_CHK_DGT 		= "ENABLE_MSI_REPORT_CHK_DGT";
+    public static final String MSI_REPORT_CHK_DGT_ENABLED 		= "MSI_REPORT_CHK_DGT_ENABLED";
 
 
     // Reduced Space Symbology(RSS), GS1 DataBar
@@ -258,26 +258,26 @@ public class datawedge {
     public static final String ENABLE_RSS_EXP 					= "ENABLE_RSS_EXP";
     public static final String RSS_EXP_ENABLED 					= "RSS_EXP_ENABLED";
 
-    public static final String DISABLE_RSS_TO_UPC 					= "DISABLE_RSS_TO_UPC";
-    public static final String ENABLE_RSS_TO_UPC 					= "ENABLE_RSS_TO_UPC";
-    public static final String RSS_TO_UPC_ENABLED 					= "RSS_TO_UPC_ENABLED";
+    public static final String DISABLE_RSS_TO_UPC 				= "DISABLE_RSS_TO_UPC";
+    public static final String ENABLE_RSS_TO_UPC 				= "ENABLE_RSS_TO_UPC";
+    public static final String RSS_TO_UPC_ENABLED 				= "RSS_TO_UPC_ENABLED";
 
     // composite
-    public static final String DISABLE_COMPOSITE_CCC 					= "DISABLE_COMPOSITE_CCC";
-    public static final String ENABLE_COMPOSITE_CCC 					= "ENABLE_COMPOSITE_CCC";
-    public static final String COMPOSITE_CCC_ENABLED 					= "COMPOSITE_CCC_ENABLED";
+    public static final String DISABLE_COMPOSITE_CCC 			= "DISABLE_COMPOSITE_CCC";
+    public static final String ENABLE_COMPOSITE_CCC 			= "ENABLE_COMPOSITE_CCC";
+    public static final String COMPOSITE_CCC_ENABLED 			= "COMPOSITE_CCC_ENABLED";
 
-    public static final String DISABLE_COMPOSITE_CCAB 					= "DISABLE_COMPOSITE_CCAB";
-    public static final String ENABLE_COMPOSITE_CCAB 					= "ENABLE_COMPOSITE_CCAB";
-    public static final String COMPOSITE_CCAB_ENABLED 					= "COMPOSITE_CCAB_ENABLED";
+    public static final String DISABLE_COMPOSITE_CCAB 			= "DISABLE_COMPOSITE_CCAB";
+    public static final String ENABLE_COMPOSITE_CCAB 			= "ENABLE_COMPOSITE_CCAB";
+    public static final String COMPOSITE_CCAB_ENABLED 			= "COMPOSITE_CCAB_ENABLED";
 
-    public static final String DISABLE_COMPOSITE_TLC39 					= "DISABLE_COMPOSITE_TLC39";
-    public static final String ENABLE_COMPOSITE_TLC39 					= "ENABLE_COMPOSITE_TLC39";
-    public static final String COMPOSITE_TLC39_ENABLED 					= "COMPOSITE_TLC39_ENABLED";
+    public static final String DISABLE_COMPOSITE_TLC39 			= "DISABLE_COMPOSITE_TLC39";
+    public static final String ENABLE_COMPOSITE_TLC39 			= "ENABLE_COMPOSITE_TLC39";
+    public static final String COMPOSITE_TLC39_ENABLED 			= "COMPOSITE_TLC39_ENABLED";
 
-    public static final String DISABLE_COMPOSITE_RSS 					= "DISABLE_COMPOSITE_RSS";
-    public static final String ENABLE_COMPOSITE_RSS 					= "ENABLE_COMPOSITE_RSS";
-    public static final String COMPOSITE_RSS_ENABLED 					= "COMPOSITE_RSS_ENABLED";
+    public static final String DISABLE_COMPOSITE_RSS 			= "DISABLE_COMPOSITE_RSS";
+    public static final String ENABLE_COMPOSITE_RSS 			= "ENABLE_COMPOSITE_RSS";
+    public static final String COMPOSITE_RSS_ENABLED 			= "COMPOSITE_RSS_ENABLED";
 
     //CHINESE 25
     public static final String DISABLE_CHINA 					= "DISABLE_CHINA";
@@ -297,13 +297,13 @@ public class datawedge {
     public static final String ENABLE_MATRIX25_REDUN 			= "ENABLE_MATRIX25_REDUN";
     public static final String MATRIX25_REDUN_ENABLED 			= "MATRIX25_REDUN_ENABLED";
 
-    public static final String DISABLE_MATRIX25_VER_CHK_DGT 			= "DISABLE_MATRIX25_VER_CHK_DGT";
-    public static final String ENABLE_MATRIX25_VER_CHK_DGT 				= "ENABLE_MATRIX25_VER_CHK_DGT";
-    public static final String MATRIX25_VER_CHK_DGT_ENABLED 			= "MATRIX25_VER_CHK_DGT_ENABLED";
+    public static final String DISABLE_MATRIX25_VER_CHK_DGT 	= "DISABLE_MATRIX25_VER_CHK_DGT";
+    public static final String ENABLE_MATRIX25_VER_CHK_DGT 		= "ENABLE_MATRIX25_VER_CHK_DGT";
+    public static final String MATRIX25_VER_CHK_DGT_ENABLED 	= "MATRIX25_VER_CHK_DGT_ENABLED";
 
-    public static final String DISABLE_MATRIX25_CHK_DGT 				= "DISABLE_MATRIX25_CHK_DGT";
-    public static final String ENABLE_MATRIX25_CHK_DGT 					= "ENABLE_MATRIX25_CHK_DGT";
-    public static final String MATRIX25_CHK_DGT_ENABLED 				= "MATRIX25_CHK_DGT_ENABLED";
+    public static final String DISABLE_MATRIX25_CHK_DGT 		= "DISABLE_MATRIX25_CHK_DGT";
+    public static final String ENABLE_MATRIX25_CHK_DGT 			= "ENABLE_MATRIX25_CHK_DGT";
+    public static final String MATRIX25_CHK_DGT_ENABLED 		= "MATRIX25_CHK_DGT_ENABLED";
 
     // Postal
     public static final String DISABLE_US_POSTNET				= "DISABLE_US_POSTNET";
@@ -318,13 +318,13 @@ public class datawedge {
     public static final String ENABLE_US_POSTAL_CHK_DGT 		= "ENABLE_US_POSTAL_CHK_DGT";
     public static final String US_POSTAL_CHK_DGT_ENABLED 		= "US_POSTAL_CHK_DGT_ENABLED";
 
-    public static final String DISABLE_UK_POSTAL 			= "DISABLE_UK_POSTAL";
-    public static final String ENABLE_UK_POSTAL 			= "ENABLE_UK_POSTAL";
-    public static final String UK_POSTAL_ENABLED 			= "UK_POSTAL_ENABLED";
+    public static final String DISABLE_UK_POSTAL 			       = "DISABLE_UK_POSTAL";
+    public static final String ENABLE_UK_POSTAL 			    = "ENABLE_UK_POSTAL";
+    public static final String UK_POSTAL_ENABLED 			    = "UK_POSTAL_ENABLED";
 
-    public static final String DISABLE_UK_POSTAL_CHK_DGT 	= "DISABLE_UK_POSTAL_CHK_DGT";
-    public static final String ENABLE_UK_POSTAL_CHK_DGT 	= "ENABLE_UK_POSTAL_CHK_DGT";
-    public static final String UK_POSTAL_CHK_DGT_ENABLED 	= "UK_POSTAL_CHK_DGT_ENABLED";
+    public static final String DISABLE_UK_POSTAL_CHK_DGT 	    = "DISABLE_UK_POSTAL_CHK_DGT";
+    public static final String ENABLE_UK_POSTAL_CHK_DGT 	    = "ENABLE_UK_POSTAL_CHK_DGT";
+    public static final String UK_POSTAL_CHK_DGT_ENABLED 	    = "UK_POSTAL_CHK_DGT_ENABLED";
 
     public static final String DISABLE_JAPAN_POSTAL 			= "DISABLE_JAPAN_POSTAL";
     public static final String ENABLE_JAPAN_POSTAL 				= "ENABLE_JAPAN_POSTAL";
@@ -334,13 +334,13 @@ public class datawedge {
     public static final String ENABLE_AUSTRALIA_POST 			= "ENABLE_AUSTRALIA_POST";
     public static final String AUSTRALIA_POST_ENABLED 			= "AUSTRALIA_POST_ENABLED";
 
-    public static final String DISABLE_KIX_CODE 			= "DISABLE_KIX_CODE";
-    public static final String ENABLE_KIX_CODE				= "ENABLE_KIX_CODE";
-    public static final String KIX_CODE_ENABLED 			= "KIX_CODE_ENABLED";
+    public static final String DISABLE_KIX_CODE 			    = "DISABLE_KIX_CODE";
+    public static final String ENABLE_KIX_CODE				    = "ENABLE_KIX_CODE";
+    public static final String KIX_CODE_ENABLED 			    = "KIX_CODE_ENABLED";
 
-    public static final String DISABLE_ONE_CODE				= "DISABLE_ONE_CODE";
-    public static final String ENABLE_ONE_CODE 				= "ENABLE_ONE_CODE";
-    public static final String ONE_CODE_ENABLED 			= "ONE_CODE_ENABLED";
+    public static final String DISABLE_ONE_CODE				    = "DISABLE_ONE_CODE";
+    public static final String ENABLE_ONE_CODE 				    = "ENABLE_ONE_CODE";
+    public static final String ONE_CODE_ENABLED 			    = "ONE_CODE_ENABLED";
 
     public static final String DISABLE_UPU_FICS_POSTAL 			= "DISABLE_UPU_FICS_POSTAL";
     public static final String ENABLE_UPU_FICS_POSTAL 			= "ENABLE_UPU_FICS_POSTAL";
@@ -353,21 +353,21 @@ public class datawedge {
     public static final String ENABLE_PDF417 					= "ENABLE_PDF417";
     public static final String PDF417_ENABLED 					= "PDF417_ENABLED";
 
-    public static final String DISABLE_MICROPDF417 					= "DISABLE_MICROPDF417";
-    public static final String ENABLE_MICROPDF417 					= "ENABLE_MICROPDF417";
-    public static final String MICROPDF417_ENABLED 					= "MICROPDF417_ENABLED";
+    public static final String DISABLE_MICROPDF417 				= "DISABLE_MICROPDF417";
+    public static final String ENABLE_MICROPDF417 				= "ENABLE_MICROPDF417";
+    public static final String MICROPDF417_ENABLED 				= "MICROPDF417_ENABLED";
 
-    public static final String DISABLE_CODE128EML 					= "DISABLE_CODE128EML";
-    public static final String ENABLE_CODE128EML 					= "ENABLE_CODE128EML";
-    public static final String CODE128EML_ENABLED 					= "CODE128EML_ENABLED";
+    public static final String DISABLE_CODE128EML 				= "DISABLE_CODE128EML";
+    public static final String ENABLE_CODE128EML 				= "ENABLE_CODE128EML";
+    public static final String CODE128EML_ENABLED 				= "CODE128EML_ENABLED";
 
-    public static final String DISABLE_DATAMATRIX 					= "DISABLE_DATAMATRIX";
-    public static final String ENABLE_DATAMATRIX 					= "ENABLE_DATAMATRIX";
-    public static final String DATAMATRIX_ENABLED 					= "DATAMATRIX_ENABLED";
+    public static final String DISABLE_DATAMATRIX 				= "DISABLE_DATAMATRIX";
+    public static final String ENABLE_DATAMATRIX 				= "ENABLE_DATAMATRIX";
+    public static final String DATAMATRIX_ENABLED 				= "DATAMATRIX_ENABLED";
 
-    public static final String DISABLE_MAXICODE 					= "DISABLE_MAXICODE";
-    public static final String ENABLE_MAXICODE 						= "ENABLE_MAXICODE";
-    public static final String MAXICODE_ENABLED 					= "MAXICODE_ENABLED";
+    public static final String DISABLE_MAXICODE 				= "DISABLE_MAXICODE";
+    public static final String ENABLE_MAXICODE 					= "ENABLE_MAXICODE";
+    public static final String MAXICODE_ENABLED 				= "MAXICODE_ENABLED";
 
     public static final String DISABLE_QRCODE 					= "DISABLE_QRCODE";
     public static final String ENABLE_QRCODE 					= "ENABLE_QRCODE";
