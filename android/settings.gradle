@@ -1,3 +1,16 @@
-rootProject.name = 'test'
+rootProject.name = 'PDASample'
+
+include ':react-native-cordova'
+project(':react-native-cordova').projectDir = new File(settingsDir, '../node_modules/@remobile/react-native-cordova/android')
+
+include ':react-native-file-transfer'
+project(':react-native-file-transfer').projectDir = new File(settingsDir, '../node_modules/@remobile/react-native-file-transfer/android')
+
+include ':react-native-fs'
+project(':react-native-fs').projectDir = new File(settingsDir, '../node_modules/react-native-fs/android')
+
+include ':react-native-restart'
+project(':react-native-restart').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-restart/android')
+
 
 include ':app'

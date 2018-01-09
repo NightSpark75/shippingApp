@@ -11,6 +11,8 @@ import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import static com.pda.datawedge.EXTRA_PARAMETER;
+import android.widget.Toast;
+
 
 
 public class ScanModule extends ReactContextBaseJavaModule {
@@ -28,6 +30,7 @@ public class ScanModule extends ReactContextBaseJavaModule {
 			String Barcode = arg1.getStringExtra(datawedge.DATA_STRING);
 			int type = arg1.getIntExtra(datawedge.DATA_TYPE, 0);
 			int length = arg1.getIntExtra(datawedge.DATA_LENGTH, 0);
+			//Toast.makeText(getReactApplicationContext(), Barcode, Toast.LENGTH_SHORT).show();
 			sendEvent(getReactApplicationContext(), "onRefreshMessage", Barcode);
 		}
 	}

@@ -1,11 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
+'use strict'
 import React, { Component } from 'react'
 import {
+  AppRegistry,
   Platform,
   StyleSheet,
   Text,
@@ -15,12 +11,12 @@ import {
   NativeModules,
   DeviceEventEmitter,
   Dimensions,
-} from 'react-native'  
-const dismissKeyboard = require('dismissKeyboard')
+} from 'react-native'
+import { NavigationActions, withNavigation } from 'react-navigation'
 
 const ScanModule = NativeModules.ScanModule
 
-export default class App extends Component {
+class Scan extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,7 +53,7 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          掃描模組測試程式
+          PDA掃描模組測試
         </Text>
         <Button 
           style={styles.button}
@@ -98,3 +94,6 @@ const styles = StyleSheet.create({
     margin: 20,
   }
 });
+
+export default withNavigation(Scan)
+AppRegistry.registerComponent('Scan', () => Scan);
