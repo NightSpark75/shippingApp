@@ -1,12 +1,12 @@
 import { 
-  LOGIN_USER,
-  USER_MENU,
+  USER_LOGIN,
+  USER_LOGOUT,
 } from '../constants/actionType'
 
-export function login_user(user_info) {
-  return {type: LOGIN_USER, user_info}
+export function userLogin(user) {
+  return {type: USER_LOGIN, user}
 }
 
-export function user_menu(user_menu) {
-  return {type: USER_MENU, user_menu}
+export function userLogout() {
+  return {type: USER_LOGOUT}
 }

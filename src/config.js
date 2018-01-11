@@ -1,8 +1,11 @@
 const app_name = 'PDASample'
 const app_number = '201'
 const major = '000'
-const minor = '01'
+const minor = '02'
 const build = '00'
+const protocol = 'http'
+const host = '172.17.100.51'
+const url = protocol + '://' + host
 
 export default {
   name: app_name,
@@ -13,6 +16,7 @@ export default {
   url_download: 'http://172.17.100.51/api/native/pad/bundle/download/' + app_number,
 
   route: {
-
+    login: url + '/api/web/jwt/login',
+    refresh: url + '/api/web/jwt/refresh',
   },
 }

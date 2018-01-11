@@ -1,17 +1,26 @@
 'use strict'
 import React, { Component } from 'react'
+import axios from 'axios'
 import { AppRegistry, StyleSheet, Text, View, Button, Alert } from 'react-native'
+import { Toast } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
 import FileTransfer from '@remobile/react-native-file-transfer'
 import RNFS from 'react-native-fs'
 import config from '../../config'
 import RNRestart from 'react-native-restart'
 import { NativeModules } from 'react-native'
+import { connect } from 'react-redux'
+import { jwtPayload, LocalStorage } from '../../lib'
+import { userLogin } from '../../actions'
 
+const STORAGE = new LocalStorage()
 const VERSION = config.version
 const VERSION_NUMBER = config.version_number
 const URL_VERSION = config.url_version
 const URL_DOWNLOAD = config.url_download
+
+let token = ''
+let user = {}
 
 class Update extends Component {
   constructor(props) {
@@ -22,10 +31,56 @@ class Update extends Component {
       path: '',
       new_version: null,
       update: false,
+      login: false,
     }
   }
 
   componentDidMount() {
+    this.checkLogin()
+    this.checkUpdate()
+  }
+
+  async checkLogin() {
+    token = await STORAGE.getValue('token')
+    if (token !== null) {
+      this.checkTokenExp(token)
+    }
+  }
+
+  checkTokenExp(token) {
+    user = jwtPayload(token)
+    if (user.ext*1000 < new Date().getTime()) {
+      this.refreshToken(token)
+    } else {
+      this.setState({login: true})
+    }
+  }
+
+  refreshToken(token) {
+    let self = this
+    let form_data = new FormData()
+    form_data.append('token', token)
+    axios.post(config.route.refresh, form_data)
+      .then(function (response) {
+        if (response.code = 200) {
+          self.setToken(response.data.token)
+        } else {
+          STORAGE.setValue('token', null)
+        }
+      }).catch(function (error) {
+        STORAGE.setValue('token', null)
+      })
+  }
+
+  setToken(token) {
+    const { dispatch } = this.props
+    STORAGE.setValue('token', token)
+    user = jwtPayload(token)
+    dispatch(userLogin(user))
+    this.setState({login: true})
+  }
+  
+  checkUpdate() {
     let self = this
     fetch(URL_VERSION, { mode: 'cors' })
       .then((response) => response.json())
@@ -35,7 +90,6 @@ class Update extends Component {
         self.setState({
           message: '最新版本為：' + json.version,
           new_version: json.version,
-          path: bundlePath,
         })
         if (json.result && (parseInt(json.version_number) > parseInt(VERSION_NUMBER))) {
           let fileTransfer = new FileTransfer()
@@ -51,7 +105,6 @@ class Update extends Component {
                 message: '程式已更新，請重新啟動!!',
                 update: true,
               })
-              //self.goRestart()
             },
             (err) => {
               console.log(err)
@@ -61,7 +114,7 @@ class Update extends Component {
           )
         } else {
           self.setState({ message: '沒有新版本需要更新...' })
-          //self.goLogin()
+          self.goLogin()
         }
       })
       .catch(function (error) {
@@ -70,11 +123,13 @@ class Update extends Component {
   }
 
   goLogin() {
+    const { user } = this.props.login
+    let route = user === {} ? 'Login': 'Scan';
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
         NavigationActions.navigate({
-          routeName: 'Root',
+          routeName: route,
         })
       ]
     })
@@ -91,9 +146,6 @@ class Update extends Component {
       <View style={styles.container}>
         <Text style={styles.info}>
           目前版本：{VERSION}
-        </Text>
-        <Text style={styles.info}>
-          bundle path：{path}
         </Text>
         <Text style={styles.message}>
           {message}
@@ -137,5 +189,12 @@ const styles = StyleSheet.create({
   }
 })
 
-export default withNavigation(Update)
+function mapStateToProps(state) {
+	const { login } = state
+	return {
+		login
+	}
+}
+
+export default connect(mapStateToProps)(withNavigation(Update))
 AppRegistry.registerComponent('Update', () => Update)

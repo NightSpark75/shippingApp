@@ -7,60 +7,68 @@ import Common_QC_Document from '../common/qc/document';
 
 import Scan from '../components/scan'
 import Update from '../components/update'
+import Login from '../components/login'
 
 export default {
   Scan: {
     screen: Scan,
-      navigationOptions: ({navigation}) => ({
-        header: null,
-        headerBackTitle: null,
-      }),
+    navigationOptions: ({ navigation }) => ({
+      header: null,
+      headerBackTitle: null,
+    }),
   },
   Update: {
     screen: Update,
-      natigationOptions: ({navigation}) => ({
-        header: null,
-        headerBackTitle: null,
+    natigationOptions: ({ navigation }) => ({
+      header: null,
+      headerBackTitle: null,
+    }),
+  },
+  Login: {
+    screen: Login,
+    navigationOptions: ({ navigation }) => ({
+      header: null,
+      headerBackTitle: null,
+    }),
+  },
+
+  // system
+  // Page: { screen: Page },
+  /*
+  HotUpdate: {
+      screen: hotUpdate,
+      navigationOptions: ({navigation}) => ({
+          header: null,
+          headerBackTitle: null,
       }),
   },
-  
-    // system
-    // Page: { screen: Page },
-    /*
-    HotUpdate: {
-        screen: hotUpdate,
-        navigationOptions: ({navigation}) => ({
-            header: null,
-            headerBackTitle: null,
-        }),
-    },
-    Root: {
-        screen: Root,
-        navigationOptions: ({navigation}) => ({
-            header: null,
-            headerBackTitle: null,
-            headerLeft: null,
-        }),
-    },
+  Root: {
+      screen: Root,
+      navigationOptions: ({navigation}) => ({
+          header: null,
+          headerBackTitle: null,
+          headerLeft: null,
+      }),
+  },
 
-    // common
-    _comm_sys_login: {
-        screen: Login,
-        navigationOptions: ({navigation}) => ({
-            header: null,
-            headerBackTitle: null,
-            headerLeft: null,
-        }),
-    },
-    _comm_qc_document: {
-        screen: Common_QC_Document,
-        navigationOptions: ({navigation}) => ({
-            header: null,
-            headerBackTitle: null,
-            headerLeft: null,
-        }),
-    },
-    */
+  // common
+  _comm_sys_login: {
+      screen: Login,
+      navigationOptions: ({navigation}) => ({
+          header: null,
+          headerBackTitle: null,
+          headerLeft: null,
+      }),
+  },
+  _comm_qc_document: {
+      screen: Common_QC_Document,
+      navigationOptions: ({navigation}) => ({
+          header: null,
+          headerBackTitle: null,
+          headerLeft: null,
+      }),
+  },
+  */
 }
 
 

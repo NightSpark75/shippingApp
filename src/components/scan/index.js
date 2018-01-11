@@ -34,9 +34,8 @@ class Scan extends Component {
     ScanModule.disabledScan()
   }
 
-  onUpdateMessage = (e) => {
-    alert(e)
-    this.setState({str: e})
+  onUpdateMessage = (str) => {
+    //toast(str, 'top')
   }
 
   enabledScan()
