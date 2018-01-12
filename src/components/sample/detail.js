@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter } from 'react-native'
 import { Container, Content, StyleProvider, Header, Left, Body, Right } from 'native-base'
-import { Button, Title, Icon } from 'native-base'
+import { Button, Title, Text, Icon } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
 import Toast from 'react-native-root-toast'
 import getTheme from '../../nativeBase/components';
@@ -16,33 +16,31 @@ class SampleDetail extends Component {
     };
   }
 
-  componentDidMount() {
-    
-  }
-
-  componentWillUnmount() {
-    
+  goBack() {
+    this.props.navigation.goBack()
   }
 
   render() {
+    const { state } = this.props.navigation;
     return (
-      <StyleProvider style={getTheme(material)}>
+      <StyleProvider style={getTheme(material)} >
         <Container>
           <Header>
             <Left>
-              <Button transparent>
-                <Icon name='arrow-back' />
+              <Button transparent onPress={this.goBack.bind(this)}>
+                <Icon name='ios-arrow-back-outline' />
               </Button>
             </Left>
             <Body>
-              <Title>Header</Title>
+              <Title>清單詳細資料</Title>
             </Body>
             <Right>
-              <Button transparent>
-                <Text>Cancel</Text>
-              </Button>
             </Right>
           </Header>
+          <Content>
+            <Text>{state.params.id}</Text>
+            <Text>{state.params.name}</Text>
+          </Content>
         </Container>
       </StyleProvider>
     )
@@ -50,20 +48,9 @@ class SampleDetail extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    //justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+  content: {
+    padding: 10
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  button: {
-    margin: 20,
-  }
 });
 
 export default withNavigation(SampleDetail)

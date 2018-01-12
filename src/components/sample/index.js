@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter } from 'react-native'
 import { Drawer, Container, Content, StyleProvider, Header, Left, Body, Right } from 'native-base'
-import { Button, Title, Icon, Text } from 'native-base'
+import { Button, Title, Icon, Text, List, ListItem } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
 import { toast } from '../../lib'
 import getTheme from '../../nativeBase/components'
@@ -17,12 +17,13 @@ class Sample extends Component {
     };
   }
 
-  componentDidMount() {
-    
-  }
-
-  componentWillUnmount() {
-    
+  goDetail(item) {
+    const navigationAction = NavigationActions.navigate({
+      routeName: 'SampleDetail',
+      params: {id: item.id, name: item.name},
+    })
+    this.props.closeDrawer
+    this.props.navigation.dispatch(navigationAction)
   }
 
   closeDrawer = () => {
@@ -53,7 +54,13 @@ class Sample extends Component {
               </Body>
             </Header>
             <Content>
-              <Text>test</Text>
+              <List>
+                {list.map((item, index) => (
+                  <ListItem key={index} onPress={this.goDetail.bind(this, item)}>
+                    <Text>{item.name}</Text>
+                  </ListItem>
+                ))}
+            </List>
             </Content>
           </Container>
           </Drawer>
@@ -78,6 +85,33 @@ const styles = StyleSheet.create({
     margin: 20,
   }
 });
+
+const list = [
+  {
+    id: 'L0001',
+    name: '清單1',
+  },
+  {
+    id: 'L0002',
+    name: '清單2',
+  },
+  {
+    id: 'L0003',
+    name: '清單3',
+  },
+  {
+    id: 'L0004',
+    name: '清單4',
+  },
+  {
+    id: 'L0005',
+    name: '清單5',
+  },
+  {
+    id: 'L0006',
+    name: '清單6',
+  },
+]
 
 export default withNavigation(Sample)
 AppRegistry.registerComponent('Sample', () => Sample);
