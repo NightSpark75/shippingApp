@@ -124,7 +124,7 @@ class Update extends Component {
 
   goLogin() {
     const { user } = this.props.login
-    let route = user === {} ? 'Login': 'Scan';
+    let route = user === {} ? 'Login': 'Sample';
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [

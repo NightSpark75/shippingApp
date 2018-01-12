@@ -1,18 +1,12 @@
 'use strict'
 import React, { Component } from 'react'
-import {
-  AppRegistry,
-  Platform,
-  StyleSheet,
-  Text,
-  TextInput,
-  Button,
-  View,
-  NativeModules,
-  DeviceEventEmitter,
-  Dimensions,
-} from 'react-native'
+import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, Dimensions } from 'react-native'
+import { Container, Content, StyleProvider, Header, Left, Right, Body, Title  } from 'native-base'
+import { Button, Icon, Text } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
+import { toast } from '../../lib'
+import getTheme from '../../nativeBase/components';
+import material from '../../nativeBase/variables/material';
 
 const ScanModule = NativeModules.ScanModule
 
@@ -20,7 +14,7 @@ class Scan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        str: 'default',
+        str: '',
         text: '',
     };
   }
@@ -34,8 +28,8 @@ class Scan extends Component {
     ScanModule.disabledScan()
   }
 
-  onUpdateMessage = (str) => {
-    //toast(str, 'top')
+  onUpdateMessage = (str='') => {
+    toast(str)
   }
 
   enabledScan()
@@ -48,49 +42,48 @@ class Scan extends Component {
     ScanModule.disabledScan()
   }
 
+  goBack() {
+    this.props.navigation.goBack()
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          PDA掃描模組測試
-        </Text>
-        <Button 
-          style={styles.button}
-          onPress={this.enabledScan.bind(this)}
-          title="開啟掃描模組"
-        >
-        </Button>
-        <Text style={styles.welcome}>
-          {this.state.str}
-        </Text>
-        <Button 
-          style={styles.button}
-          onPress={this.disabledScan.bind(this)}
-          title="關閉掃描模組"
-        >
-        </Button>
-        <Text>目前螢幕寬度:{Dimensions.get('window').width}</Text>
-        <Text>目前螢幕高度:{Dimensions.get('window').height}</Text> 
-        <Text>目前螢幕解析度:{Dimensions.get('window').scale}</Text>
-      </View>
+      <StyleProvider style={getTheme(material)}>
+        <Container>
+          <Header>
+            <Left>
+              <Button transparent onPress={this.goBack.bind(this)}>
+                <Icon name='ios-arrow-back-outline' />
+              </Button>
+            </Left>
+            <Body>
+              <Title>掃描模組測試</Title>
+            </Body>
+          </Header>
+          <Content style={styles.content}>
+            <Button block success style={styles.button} onPress={this.enabledScan.bind(this)}>
+              <Text>開啟掃描模組</Text>
+            </Button>
+            <Button block danger style={styles.button} onPress={this.disabledScan.bind(this)}>
+              <Text>關閉掃描模組</Text>
+            </Button>
+            <Text>目前螢幕寬度:{Dimensions.get('window').width}</Text>
+            <Text>目前螢幕高度:{Dimensions.get('window').height}</Text> 
+            <Text>目前螢幕解析度:{Dimensions.get('window').scale}</Text>
+          </Content>
+        </Container>
+      </StyleProvider>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    //justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  content: {
+    padding: 10,
   },
   button: {
-    margin: 20,
+    marginTop: 10,
+    marginBottom: 10,
   }
 });
 

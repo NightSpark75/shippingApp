@@ -1,13 +1,8 @@
-/*
-import hotUpdate from '../../components/HotUpdate/android';
-import Root from '../Root';
-import Login from '../Login';
-import Common_QC_Document from '../common/qc/document';
-*/
-
 import Scan from '../components/scan'
 import Update from '../components/update'
 import Login from '../components/login'
+import Sample from '../components/sample'
+import SampleDetail from '../components/sample/detail'
 
 export default {
   Scan: {
@@ -31,44 +26,20 @@ export default {
       headerBackTitle: null,
     }),
   },
-
-  // system
-  // Page: { screen: Page },
-  /*
-  HotUpdate: {
-      screen: hotUpdate,
-      navigationOptions: ({navigation}) => ({
-          header: null,
-          headerBackTitle: null,
-      }),
+  Sample: {
+    screen: Sample,
+    navigationOptions: ({ navigation }) => ({
+      header: null,
+      headerBackTitle: null,
+    }),
   },
-  Root: {
-      screen: Root,
-      navigationOptions: ({navigation}) => ({
-          header: null,
-          headerBackTitle: null,
-          headerLeft: null,
-      }),
+  SampleDetail: {
+    screen: SampleDetail,
+    navigationOptions: ({ navigation }) => ({
+      header: null,
+      headerBackTitle: null,
+    }),
   },
-
-  // common
-  _comm_sys_login: {
-      screen: Login,
-      navigationOptions: ({navigation}) => ({
-          header: null,
-          headerBackTitle: null,
-          headerLeft: null,
-      }),
-  },
-  _comm_qc_document: {
-      screen: Common_QC_Document,
-      navigationOptions: ({navigation}) => ({
-          header: null,
-          headerBackTitle: null,
-          headerLeft: null,
-      }),
-  },
-  */
 }
 
 

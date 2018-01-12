@@ -108,12 +108,12 @@ export default {
   cardDefaultBg: "#fff",
 
   // Color
-  brandPrimary: "#4CAF50", //"#3F51B5",
-  brandInfo: "#03A9F4", //"#3F57D3",
-  brandSuccess: "#4CAF50", //"#5cb85c",
-  brandDanger: "#F44336", //"#d9534f",
-  brandWarning: "#FFC107", //"#f0ad4e",
-  brandSidebar: "#1B5E20", //"#252932",
+  brandPrimary: "#3F51B5",
+  brandInfo: "#3F57D3",
+  brandSuccess: "#5cb85c",
+  brandDanger: "#d9534f",
+  brandWarning: "#f0ad4e",
+  brandSidebar: "#252932",
 
   // Font
   fontFamily: "Roboto",
@@ -131,10 +131,10 @@ export default {
 
   // Footer
   footerHeight: 55,
-  footerDefaultBg: "#4CAF50", //"#3F51B5",
+  footerDefaultBg: "#3F51B5",
 
   // FooterTab
-  tabBarTextColor: "#C8E6C9", //"#b3c7f9",
+  tabBarTextColor: "#b3c7f9",
   tabBarTextSize: platform === "ios" ? 14 : 11,
   activeTab: "#fff",
   sTabBarActiveTextColor: "#007aff",
@@ -151,7 +151,7 @@ export default {
 
   // Header
   toolbarBtnColor: "#fff",
-  toolbarDefaultBg: "#3F51B5", //"#3F51B5",
+  toolbarDefaultBg: "#3F51B5",
   toolbarHeight: platform === "ios" ? 76 : 56,
   toolbarIconSize: platform === "ios" ? 20 : 22,
   toolbarSearchIconSize: platform === "ios" ? 20 : 23,

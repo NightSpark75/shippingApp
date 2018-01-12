@@ -59,7 +59,7 @@ public class ScanModule extends ReactContextBaseJavaModule {
 
 	@ReactMethod
 	public void disabledScan() {
-		getReactApplicationContext().unregisterReceiver(intentBarcodeDataReceiver);
+		//getReactApplicationContext().unregisterReceiver(intentBarcodeDataReceiver);
 		DisableScanner();
 		sendEvent(getReactApplicationContext(), "onRefreshMessage", "disabled scan");
 	}
