@@ -16,7 +16,7 @@ export default {
   url_download: 'http://172.17.100.51/api/native/pad/bundle/download/' + app_number,
 
   route: {
-    login: url + '/api/web/jwt/login',
-    refresh: url + '/api/web/jwt/refresh',
+    login: url + '/api/jwt/login',
+    refresh: url + '/api/jwt/refresh',
   },
 }

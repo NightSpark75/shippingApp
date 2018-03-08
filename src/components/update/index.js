@@ -41,7 +41,7 @@ class Update extends Component {
   }
 
   async checkLogin() {
-    token = await STORAGE.getValue('token')
+    token = null//STORAGE.getValue('token')
     if (token !== null) {
       this.checkTokenExp(token)
     }
@@ -124,7 +124,7 @@ class Update extends Component {
 
   goLogin() {
     const { user } = this.props.login
-    let route = user === {} ? 'Login': 'Sample';
+    let route = Object.keys(user).length === 0 ? 'Login': 'Sample';
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [

@@ -1,6 +1,7 @@
 'use strict'
 import React, { Component } from 'react'
 import axios from 'axios'
+import { TextInput } from 'react-native'
 import { AppRegistry } from 'react-native'
 import { Container, Header, Content, StyleProvider } from 'native-base'
 import { Form, Item, Input, Left, Body, Right, Title, Label} from 'native-base'
@@ -23,6 +24,7 @@ class Login extends Component {
     this.state = {
       id: '',
       password: '',
+      isLoading: false,
     }
   }
 
@@ -36,16 +38,21 @@ class Login extends Component {
     let form_data = new FormData()
     form_data.append('id', id)
     form_data.append('password', password)
+    this.setState({isLoading: true})
     axios.post(config.route.login, form_data)
       .then(function (response) {
         if (response.code = 200) {
           self.setLoginUser(response.data.token)
           self.loginSuccess()
         } else {
-          toast(response.data.error)
+          //toast(response.data.error)
+          alert(response.data.error)
+          self.setState({isLoading: false})
         }
       }).catch(function (error) {
-        toast(error)
+        //toast(error)
+        alert(error)
+        self.setState({isLoading: false})
       })
   }
 
@@ -70,7 +77,7 @@ class Login extends Component {
   }
 
   render() {
-    const { id, password } = this.state
+    const { id, password, isLoading } = this.state
     return (
       <StyleProvider style={getTheme(material)}>
         <Container>
@@ -80,22 +87,32 @@ class Login extends Component {
               <Item floatingLabel>
                 <Label>帳號</Label>
                 <Input
-                  onChange={e => this.setState({id: e.nativeEvent.text})}
+                  ref="acc"
+                  onChange={(e) => this.setState({id: e.nativeEvent.text})}
+                  autoFocus={true}
                   value={id}
+                  onSubmitEditing={() => { this._password._root.focus() }}
                 />
               </Item>
               <Item floatingLabel last>
                 <Label>密碼</Label>
                 <Input
+                  getRef={(c) => this._password = c}
                   secureTextEntry={true}
-                  onChange={e => this.setState({password: e.nativeEvent.text})}
+                  onChange={(e) => this.setState({password: e.nativeEvent.text})}
                   value={password}
                 />
               </Item>
             </Form>
-            <Button block primary onPress={this.login.bind(this)} style={{margin: 10}}>
-              <Text>登入</Text>
-            </Button>
+            {isLoading ? 
+              <Button block disabled style={{margin: 10}}>
+                <Text>處理中...</Text>
+              </Button>
+            :
+              <Button block primary onPress={this.login.bind(this)} style={{margin: 10}}>
+                <Text>登入</Text>
+              </Button>
+            }
           </Content>
         </Container>
       </StyleProvider>
