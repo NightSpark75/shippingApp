@@ -1,4 +1,4 @@
-package com.pda;
+package com.picking;
 
 import com.facebook.react.ReactActivity;
 

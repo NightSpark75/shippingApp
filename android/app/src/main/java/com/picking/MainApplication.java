@@ -1,10 +1,11 @@
-package com.pda;
+package com.picking;
 
 import android.app.Application;
 import android.widget.Toast;
 import android.content.Context;  
 
 import com.facebook.react.ReactApplication;
+import io.realm.react.RealmReactPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -13,6 +14,7 @@ import com.facebook.soloader.SoLoader;
 import com.remobile.filetransfer.RCTFileTransferPackage;
 import com.rnfs.RNFSPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
+import io.realm.react.RealmReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +48,8 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
-                new MainReactPackage(), 
+                new MainReactPackage(),
+                new RealmReactPackage(),
                 new RCTFileTransferPackage(),
                 new RNFSPackage(),
                 new ReactNativeRestartPackage(),

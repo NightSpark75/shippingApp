@@ -8,14 +8,12 @@ import { Form, Item, Input, Left, Body, Right, Title, Label} from 'native-base'
 import { Button, Text, Icon } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
 import config from '../../config'
-import { jwtPayload, toast, LocalStorage } from '../../lib'
+import { jwtPayload, toast, saveToken } from '../../lib'
 import { connect } from 'react-redux'
 import { userLogin } from '../../actions'
 import Navbar from '../navbar'
 import getTheme from '../../nativeBase/components';
 import material from '../../nativeBase/variables/material';
-
-const STORAGE = new LocalStorage()
 
 class Login extends Component {
   constructor(props) {
@@ -29,7 +27,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-
+    
   }
  
   login() {
@@ -57,7 +55,7 @@ class Login extends Component {
   }
 
   setLoginUser(token) {
-    STORAGE.setValue('token', token)
+    saveToken(token)
     const { dispatch } = this.props
     const user = jwtPayload(token)
     toast(user.name + '您好...')
@@ -87,11 +85,10 @@ class Login extends Component {
               <Item floatingLabel>
                 <Label>帳號</Label>
                 <Input
-                  ref="acc"
                   onChange={(e) => this.setState({id: e.nativeEvent.text})}
                   autoFocus={true}
                   value={id}
-                  onSubmitEditing={() => { this._password._root.focus() }}
+                  onSubmitEditing={() => this._password._root.focus()}
                 />
               </Item>
               <Item floatingLabel last>
@@ -101,6 +98,7 @@ class Login extends Component {
                   secureTextEntry={true}
                   onChange={(e) => this.setState({password: e.nativeEvent.text})}
                   value={password}
+                  onSubmitEditing={() => this.login()}
                 />
               </Item>
             </Form>

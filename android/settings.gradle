@@ -1,4 +1,6 @@
 rootProject.name = 'PDASample'
+include ':realm'
+project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
 
 include ':react-native-cordova'
 project(':react-native-cordova').projectDir = new File(settingsDir, '../node_modules/@remobile/react-native-cordova/android')
@@ -12,5 +14,7 @@ project(':react-native-fs').projectDir = new File(settingsDir, '../node_modules/
 include ':react-native-restart'
 project(':react-native-restart').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-restart/android')
 
+include ':realm'
+project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
 
 include ':app'

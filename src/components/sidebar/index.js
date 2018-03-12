@@ -5,12 +5,10 @@ import { Drawer, Container, Content, StyleProvider, Header, Left, Body, Right } 
 import { Button, Title, Icon, Text, List, ListItem } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
 import { connect } from 'react-redux'
-import { LocalStorage } from '../../lib'
+import { removeToken } from '../../lib'
 import { userLogout } from '../../actions'
 import getTheme from '../../nativeBase/components';
 import material from '../../nativeBase/variables/material';
-
-const STORAGE = new LocalStorage()
 
 class Sidebar extends Component {
   constructor(props) {
@@ -43,7 +41,7 @@ class Sidebar extends Component {
 
   removeUserInfo() {
     const { dispatch } = this.props
-    STORAGE.setValue('token', null)
+    removeToken()
     dispatch(userLogout())
     const login = NavigationActions.reset({
       index: 0,

@@ -1,4 +1,4 @@
-const app_name = 'PDASample'
+const app_name = 'pickingApp'
 const app_number = '201'
 const major = '000'
 const minor = '02'

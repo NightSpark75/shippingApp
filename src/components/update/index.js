@@ -10,17 +10,17 @@ import config from '../../config'
 import RNRestart from 'react-native-restart'
 import { NativeModules } from 'react-native'
 import { connect } from 'react-redux'
-import { jwtPayload, LocalStorage } from '../../lib'
+import { jwtPayload, saveToken, loadToken, removeToken, LocalStorage } from '../../lib'
 import { userLogin } from '../../actions'
 
-const STORAGE = new LocalStorage()
 const VERSION = config.version
 const VERSION_NUMBER = config.version_number
 const URL_VERSION = config.url_version
 const URL_DOWNLOAD = config.url_download
 
 let token = ''
-let user = {}
+let payload = {}
+let m = ''
 
 class Update extends Component {
   constructor(props) {
@@ -35,21 +35,21 @@ class Update extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount() {  
     this.checkLogin()
     this.checkUpdate()
   }
 
   async checkLogin() {
-    token = null//STORAGE.getValue('token')
-    if (token !== null) {
-      this.checkTokenExp(token)
+    token = loadToken()
+    payload = jwtPayload(token)
+    if (payload) {
+      this.checkTokenExp(payload)
     }
   }
 
-  checkTokenExp(token) {
-    user = jwtPayload(token)
-    if (user.ext*1000 < new Date().getTime()) {
+  checkTokenExp(payload) {
+    if (payload.ext*1000 < new Date().getTime()) {
       this.refreshToken(token)
     } else {
       this.setState({login: true})
@@ -65,18 +65,18 @@ class Update extends Component {
         if (response.code = 200) {
           self.setToken(response.data.token)
         } else {
-          STORAGE.setValue('token', null)
+          removeToken()
         }
       }).catch(function (error) {
-        STORAGE.setValue('token', null)
+        removeToken()
       })
   }
 
   setToken(token) {
     const { dispatch } = this.props
-    STORAGE.setValue('token', token)
-    user = jwtPayload(token)
-    dispatch(userLogin(user))
+    saveToken(token)
+    payload = jwtPayload(token)
+    dispatch(userLogin(payload))
     this.setState({login: true})
   }
   
@@ -123,8 +123,8 @@ class Update extends Component {
   }
 
   goLogin() {
-    const { user } = this.props.login
-    let route = Object.keys(user).length === 0 ? 'Login': 'Sample';
+    const { login } = this.state
+    let route = login ? 'Sample': 'Login'
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [

@@ -1,4 +1,4 @@
-package com.pda;
+package com.picking;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import static com.pda.datawedge.EXTRA_PARAMETER;
+import static com.picking.datawedge.EXTRA_PARAMETER;
 import android.widget.Toast;
 
 
