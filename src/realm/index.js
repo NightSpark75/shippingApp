@@ -8,7 +8,7 @@ export const addRealmData = (schema, list) => {
   try {
     let realm = new Realm({schema: [schema]})
     realm.write(()=> {
-        list.map((item, index) => {
+        list.map((item) => {
           realm.create(schema.name, item)
         })
     })
@@ -22,8 +22,9 @@ export const updateRealmData = (schema, list) => {
   try {
     let realm = new Realm({schema: [schema]})
     realm.write(()=> {
-      list.map((item, index) => {
-        realm.create(schema.name, item)
+      list.map((item) => {
+        alert(JSON.stringify(item))
+        realm.create(schema.name, item, true)
       })
     })
     return true

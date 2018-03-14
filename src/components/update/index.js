@@ -44,12 +44,12 @@ class Update extends Component {
     token = loadToken()
     payload = jwtPayload(token)
     if (payload) {
-      this.checkTokenExp(payload)
+      this.checkTokenExp()
     }
   }
 
-  checkTokenExp(payload) {
-    if (payload.ext*1000 < new Date().getTime()) {
+  checkTokenExp() {
+    if (payload.exp*1000 < new Date().getTime()) {
       this.refreshToken(token)
     } else {
       this.setState({login: true})
@@ -124,7 +124,7 @@ class Update extends Component {
 
   goLogin() {
     const { login } = this.state
-    let route = login ? 'Sample': 'Login'
+    let route = login ? 'PickingList': 'Login'
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [

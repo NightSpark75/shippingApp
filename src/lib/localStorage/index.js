@@ -11,8 +11,7 @@ export class LocalStorage {
   // AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.')
   // getItem(key, callback?)
   // removeItem(key, callback?) 
-
-
+  
   async init() {
     this.initValue(key.token, null)
     this.initValue(key.update, false)

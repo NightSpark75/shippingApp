@@ -1,14 +1,7 @@
 import Toast from 'react-native-root-toast'
 import base64 from 'base-64'
-import { systemRealm } from '../../realm/schema/system'
-import { 
-  addRealmData, 
-  updateRealmData,
-  deleteAllRealmData, 
-  deleteOneRealmData,
-  fetchAllRealmData, 
-  fetchRealmData,
-} from '../../realm'
+import Realm from 'realm'
+import { systemRealm } from '../../realm/schema'
 
 export function jwtPayload(token) {
   try {
@@ -21,24 +14,38 @@ export function jwtPayload(token) {
 }
 
 export function saveToken(token) {
-  let data = fetchRealmData(systemRealm, 'id == \'token\'')
-  if (data.length > 0) {
-    data[0].value = token
-    updateRealmData(systemRealm, data)
-  }
-  addRealmData(systemRealm, [{id: 'token', value: token}])
+  let realm = new Realm({schema: [systemRealm]})
+  realm.write(()=> {
+    let data = realm.objects(systemRealm.name).filtered('id == "token"')
+    if (data.length > 0) {
+      data[0].value = token
+    } else {
+      realm.create(systemRealm.name, {id: 'token', value: token})
+    }
+  })
+  realm.close()
 }
 
 export function removeToken() {
-  deleteOneRealmData(systemRealm, 'id == \'token\'')
+  let realm = new Realm({schema: [systemRealm]})
+  realm.write(()=> {
+    let data = realm.objects(systemRealm.name).filtered('id == "token"')
+    realm.delete(data)
+  })
+  realm.close()
 }
 
 export function loadToken() {
-  let data = fetchRealmData(systemRealm, 'id == \'token\'')
-  if (data.length > 0) {
-    return data[0].value
-  }
-  return ''
+  let realm = new Realm({schema: [systemRealm]})
+  let token = ''
+  realm.write(()=> {
+    let data = realm.objects(systemRealm.name).filtered('id == "token"')
+    if (data.length > 0) {
+      token = data[0].value
+    }
+  })
+  realm.close()
+  return token
 }
 
 export function toast(message) {
