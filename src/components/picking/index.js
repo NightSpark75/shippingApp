@@ -3,27 +3,29 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Realm from 'realm'
 import { pickingRealm, itemsRealm } from '../../realm/schema'
-import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, RefreshControl, ActivityIndicator, View } from 'react-native'
-import { Drawer, Container, Content, StyleProvider, Header, Left, Body, Right } from 'native-base'
+import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, RefreshControl, ActivityIndicator, View, ListView } from 'react-native'
+import { Drawer, Container, Content, StyleProvider, Header, Left, Body, Right, Spinner } from 'native-base'
 import { Button, Title, Icon, Text, List, ListItem } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
-import { connect } from 'react-redux'
 import { toast, loadToken } from '../../lib'
 import config from '../../config'
 import getTheme from '../../nativeBase/components'
 import material from '../../nativeBase/variables/material'
 import Sidebar from '../sidebar'
 
-let n = 0
+let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+let doubleClick = false
 
 class Picking extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       menuShow: false,
       refreshing: false,
+      isLoading: false,
       pickingList: [],
       goPicking: false,
+      vs: ds.cloneWithRows([]),
     };
   }
 
@@ -34,7 +36,7 @@ class Picking extends Component {
   }
 
   checkPicking() {
-    let realm = new Realm({schema: [pickingRealm]})
+    let realm = new Realm({ schema: [pickingRealm] })
     let data = realm.objects(pickingRealm.name)
     if (data.length === 0) {
       realm.close()
@@ -55,6 +57,7 @@ class Picking extends Component {
           self.setState({
             pickingList: response.data,
             refreshing: false,
+            vs: ds.cloneWithRows(response.data)
           })
         } else {
           alert(response.data.error)
@@ -73,17 +76,15 @@ class Picking extends Component {
 
   goPickingStart(item) {
     const self = this
-    if (!this.state.goPicking) {
-      this.setState({ goPicking: true })
+    if (!doubleClick) {
+      doubleClick = true
       const navigationAction = NavigationActions.navigate({
         routeName: 'PickingStart',
-        params: { 
-          picking: item, 
-          /* 
+        params: {
+          picking: item,
           unlock: () => {
-            self.setState({ goPicking: false })
+            doubleClick = false
           }
-          */
         },
       })
       this.props.closeDrawer
@@ -107,7 +108,7 @@ class Picking extends Component {
   }
 
   render() {
-    const { pickingList, message } = this.state
+    const { pickingList, message, isLoading } = this.state
     return (
       <StyleProvider style={getTheme(material)}>
         <Drawer
@@ -135,12 +136,17 @@ class Picking extends Component {
                 />
               }
             >
-              <List
-                dataArray={pickingList}
-                renderRow={(item, index) => (
-                  <ListItem key={index} onPress={this.goPickingStart.bind(this, item)}>
-                    <Text>{'單號:' + item.sticu + ' 站碼:' + item.ststop}</Text>
-                  </ListItem>
+              <ListView
+                enableEmptySections = {true}
+                style={styles.listView}
+                dataSource={this.state.vs}
+                renderRow={(rowData) => (
+                  <Text
+                    style={styles.listItems}
+                    onPress={this.goPickingStart.bind(this, rowData)}
+                  >
+                    {'單號:' + rowData.sticu + ' 站碼:' + rowData.ststop}
+                  </Text>
                 )}
               />
             </Content>
@@ -152,17 +158,20 @@ class Picking extends Component {
 }
 
 const styles = StyleSheet.create({
-  message: {
-    marginLeft: 20,
-  }
+  listView: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  listItems: {
+    fontSize: 24,
+    borderStyle: 'solid',
+    borderBottomWidth: 1,
+    borderColor: '#000',
+    padding: 10
+  },
 });
 
-function mapStateToProps(state) {
-  const { login } = state
-  return {
-    login
-  }
-}
-
-export default connect(mapStateToProps)(withNavigation(Picking))
+export default withNavigation(Picking)
 AppRegistry.registerComponent('Picking', () => Picking);

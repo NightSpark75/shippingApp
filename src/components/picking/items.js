@@ -11,14 +11,13 @@ import Toast from 'react-native-root-toast'
 import getTheme from '../../nativeBase/components'
 import material from '../../nativeBase/variables/material'
 
-let n = 0
-
 class PickingItems extends Component {
   constructor(props) {
     super(props);
     this.state = {
       items: [],
       item: null,
+      passing: true,
       no: 0,
     };
   }
@@ -31,7 +30,6 @@ class PickingItems extends Component {
   getAllItems() {
     let realm = new Realm({schema: [pickingRealm, itemsRealm]})
     let data = realm.objects(itemsRealm.name)
-    //realm.close()
     return data
   }
 
@@ -48,7 +46,6 @@ class PickingItems extends Component {
   }
 
   goBackPicking() {
-    return
     this.removePicking()
     const picking = NavigationActions.reset({
       index: 0,
@@ -69,7 +66,7 @@ class PickingItems extends Component {
       let deleteItems = realm.objects(itemsRealm.name)
       realm.delete(deleteItems)
     })
-    //realm.close()
+    realm.close()
   }
 
   picked() {
@@ -79,10 +76,8 @@ class PickingItems extends Component {
       let obj = realm.objects(itemsRealm.name)
       let data = obj.filtered('psrmk == "' + item.psrmk + '" AND pslitm == "' + item.pslitm + '" AND pslotn == "' + item.pslotn + '"')
       data[0].picked = 1
+      
     })
-    //realm.close()
-    //let items = realm.objects(itemsRealm.name)
-    //this.setState({ items: items }, () => this.checkFinished())
     this.checkFinished()
   }
 
@@ -92,18 +87,12 @@ class PickingItems extends Component {
     let obj = realm.objects(itemsRealm.name)
     let data = obj.filtered('picked == 0')
     if (data.length > 0) {
-      this.setState({ item: data[0] })
+      this.setState({ 
+        item: data[0],
+        passing: false,
+      })
       return
     }
-    /*
-    for (let i = 0; i < items.length; i++) {
-      let item = items[i]
-      if (item.picked === 0) {
-        this.setState({ item: item, no: i++ })
-        return
-      }
-    }
-    */
     this.goPickingEnd()
   }
 
@@ -150,15 +139,17 @@ class PickingItems extends Component {
               <Right>
               </Right>
             </Header>
-            <Content>
-              <Text>{item.pslocn.trim()}</Text>
-              <Text>{item.psrmk.trim()}</Text>
-              <Text>{item.pslitm.trim()}</Text>
-              <Text>{item.pslotn.trim()}</Text>
-              <Text>{item.pssoqs + '/' + item.pspqoh + ' ' + item.psuom.trim()}</Text>
-              <Button block primary onPress={this.picked.bind(this)} style={{ margin: 10 }}>
-                <Text>確認</Text>
-              </Button>
+            <Content style={styles.content}>
+              <Text style={styles.pickingInfo}>{'倉別: ' + item.pslocn.trim()}</Text>
+              <Text style={styles.scanInfo}>{'儲位: ' + item.psrmk.trim()}</Text>
+              <Text style={styles.scanInfo}>{'料號: ' + item.pslitm.trim()}</Text>
+              <Text style={styles.scanInfo}>{'批號: ' + item.pslotn.trim()}</Text>
+              <Text style={styles.pickingInfo}>{'揀貨數量: ' + item.pssoqs + ' ' + item.psuom.trim()}</Text>
+              {true && 
+                <Button block primary large onPress={this.picked.bind(this)}>
+                  <Text>確認</Text>
+                </Button>
+              }
             </Content>
           </Container>
         }
@@ -170,6 +161,24 @@ class PickingItems extends Component {
 const styles = StyleSheet.create({
   content: {
     padding: 10
+  },
+  scanInfo: {
+    fontSize: 20,
+    fontWeight: '400',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: '#f0ad4e',
+    borderRadius: 1,
+    padding: 5,
+    marginTop: 2,
+    marginBottom: 3,
+  },
+  pickingInfo: {
+    fontSize: 20,
+    fontWeight: '400',
+    padding: 5,
+    marginTop: 2,
+    marginBottom: 3,
   },
 });
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Realm from 'realm'
 import { itemsRealm, pickingRealm } from '../../realm/schema'
-import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, View } from 'react-native'
+import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, View, ListView } from 'react-native'
 import { Container, Content, StyleProvider, Header, Left, Body, Right } from 'native-base'
 import { Button, Title, Text, Icon, List, ListItem } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
@@ -12,6 +12,8 @@ import config from '../../config'
 import getTheme from '../../nativeBase/components'
 import material from '../../nativeBase/variables/material'
 
+let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+
 class PickingStart extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +21,7 @@ class PickingStart extends Component {
       isLoading: false,
       isSubmiting: false,
       pickingItems: [],
+      vs: ds.cloneWithRows([]),
     };
   }
 
@@ -38,7 +41,9 @@ class PickingStart extends Component {
           self.setState({
             pickingItems: response.data,
             isLoading: false,
+            vs: ds.cloneWithRows(response.data)
           })
+          self.props.navigation.state.params.unlock();
         } else {
           alert(response.data.error)
         }
@@ -48,7 +53,6 @@ class PickingStart extends Component {
   }
 
   goBack() {
-    this.props.navigation.state.params.unlock();
     this.props.navigation.goBack()
   }
 
@@ -150,19 +154,19 @@ class PickingStart extends Component {
             </Right>
           </Header>
           <Content style={styles.content}>
-            <Text>{'揀料單號:' + picking.sticu}</Text>
-            <Text>{'站碼:' + picking.ststop}</Text>
-            <Text>{'日期:' + picking.staddj.substring(0, 10)}</Text>
-            <List
-              dataArray={pickingItems}
-              renderRow={(item, section, row, high) => (
-                <ListItem key={row} style={styles.row}>
-                  <Text>{this.setItem(item, row)}</Text>
-                </ListItem>
-              )}
+            <Text style={styles.pickingInfo}>{'揀料單號:' + picking.sticu}</Text>
+            <Text style={styles.pickingInfo}>{'站碼:' + picking.ststop}</Text>
+            <Text style={styles.pickingInfo}>{'日期:' + picking.staddj.substring(0, 10)}</Text>
+            <ListView
+                enableEmptySections = {true}
+                style={styles.listView}
+                dataSource={this.state.vs}
+                renderRow={(item, section, row, high) => ( 
+                  <Text style={styles.listItems}>{this.setItem(item, row)}</Text>
+                )}
             />
             {this.state.isLoading &&
-              <Text>揀料資料讀取中...</Text>
+              <Text style={styles.pickingInfo}>揀料清單讀取中...</Text>
             }
             {!this.state.isLoading &&
               this.submitButton()
@@ -181,9 +185,21 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
   },
-  row: {
-    marginLeft: 0,
-  }
+  pickingInfo: {
+    fontSize: 20,
+  },
+  listView: {
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  listItems: {
+    fontSize: 18,
+    borderStyle: 'solid',
+    borderBottomWidth: 1,
+    borderColor: '#000',
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
 });
 
 export default withNavigation(PickingStart)
