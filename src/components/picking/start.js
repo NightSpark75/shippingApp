@@ -62,7 +62,7 @@ class PickingStart extends Component {
     const psrmk = ' [' + item.psrmk.trim() + ']'
     const pslitm = ' [' + item.pslitm.trim() + ']'
     const pslotn = ' [' + item.pslotn.trim() + ']'
-    const amt = ' ' + item.pssoqs + '/' + item.pspqoh
+    const amt = ' ' + item.pssoqs + '(' + item.psuom + ')'
     return (
       num + pslitm + pslotn + amt
     )
@@ -92,7 +92,7 @@ class PickingStart extends Component {
 
   goItems() {
     const { picking } = this.props.navigation.state.params
-    const { pickingItems } = this.state 
+    const { pickingItems } = this.state
 
     this.setCurrentPicking(picking, pickingItems)
     this.setState({ isSubmiting: false })
@@ -103,8 +103,8 @@ class PickingStart extends Component {
   }
 
   setCurrentPicking(picking, items) {
-    let realm = new Realm({schema: [pickingRealm, itemsRealm]})
-    realm.write(()=> {
+    let realm = new Realm({ schema: [pickingRealm, itemsRealm] })
+    realm.write(() => {
       let deletePicking = realm.objects(pickingRealm.name)
       realm.delete(deletePicking)
       realm.create(pickingRealm.name, picking)
@@ -118,7 +118,7 @@ class PickingStart extends Component {
     realm.close()
   }
 
-  submitButton () {
+  submitButton() {
     if (this.state.isSubmiting) {
       return (
         <Button block disabled style={{ margin: 10 }}>
@@ -143,27 +143,25 @@ class PickingStart extends Component {
         <Container>
           <Header>
             <Left>
-              <Button transparent onPress={this.goBack.bind(this)}>
+              <Button transparent onPress={this.goBack.bind(this)} style={{ width: 50 }}>
                 <Icon name='ios-arrow-back-outline' />
               </Button>
             </Left>
             <Body>
               <Title>揀料確認</Title>
             </Body>
-            <Right>
-            </Right>
           </Header>
           <Content style={styles.content}>
             <Text style={styles.pickingInfo}>{'揀料單號:' + picking.sticu}</Text>
             <Text style={styles.pickingInfo}>{'站碼:' + picking.ststop}</Text>
             <Text style={styles.pickingInfo}>{'日期:' + picking.staddj.substring(0, 10)}</Text>
             <ListView
-                enableEmptySections = {true}
-                style={styles.listView}
-                dataSource={this.state.vs}
-                renderRow={(item, section, row, high) => ( 
-                  <Text style={styles.listItems}>{this.setItem(item, row)}</Text>
-                )}
+              enableEmptySections={true}
+              style={styles.listView}
+              dataSource={this.state.vs}
+              renderRow={(item, section, row, high) => (
+                <Text style={styles.listItems}>{this.setItem(item, row)}</Text>
+              )}
             />
             {this.state.isLoading &&
               <Text style={styles.pickingInfo}>揀料清單讀取中...</Text>
@@ -193,7 +191,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   listItems: {
-    fontSize: 18,
+    fontSize: 16,
     borderStyle: 'solid',
     borderBottomWidth: 1,
     borderColor: '#000',

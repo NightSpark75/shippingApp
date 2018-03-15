@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import Realm from 'realm'
 import { itemsRealm, pickingRealm } from '../../realm/schema'
-import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, Alert } from 'react-native'
+import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, Alert, BackHandler } from 'react-native'
 import { Container, Content, StyleProvider, Header, Left, Body, Right } from 'native-base'
 import { Button, Title, Text, Icon } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
@@ -18,17 +18,21 @@ class PickingItems extends Component {
       items: [],
       item: null,
       passing: true,
-      no: 0,
     };
   }
 
   componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => this.cancelPicking())
     let items = this.getAllItems()
     this.setState({ items: items }, () => this.checkFinished())
   }
 
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', ()=>{})
+  }
+
   getAllItems() {
-    let realm = new Realm({schema: [pickingRealm, itemsRealm]})
+    let realm = new Realm({ schema: [pickingRealm, itemsRealm] })
     let data = realm.objects(itemsRealm.name)
     return data
   }
@@ -38,11 +42,12 @@ class PickingItems extends Component {
       '放棄揀料',
       '您確定要放棄揀料？此動作會清除本機上的揀料記錄',
       [
-        {text: '確定', onPress: () => this.goBackPicking()},
-        {text: '取消', onPress: () => null},
+        { text: '確定', onPress: () => this.goBackPicking() },
+        { text: '取消', onPress: () => null },
       ],
       { cancelable: false }
     )
+    return true
   }
 
   goBackPicking() {
@@ -59,8 +64,8 @@ class PickingItems extends Component {
   }
 
   removePicking() {
-    let realm = new Realm({schema: [pickingRealm, itemsRealm]})
-    realm.write(()=> {
+    let realm = new Realm({ schema: [pickingRealm, itemsRealm] })
+    realm.write(() => {
       let deletePicking = realm.objects(pickingRealm.name)
       realm.delete(deletePicking)
       let deleteItems = realm.objects(itemsRealm.name)
@@ -71,23 +76,22 @@ class PickingItems extends Component {
 
   picked() {
     const { item } = this.state
-    let realm = new Realm({schema: [pickingRealm, itemsRealm]})
+    let realm = new Realm({ schema: [pickingRealm, itemsRealm] })
     realm.write(() => {
       let obj = realm.objects(itemsRealm.name)
       let data = obj.filtered('psrmk == "' + item.psrmk + '" AND pslitm == "' + item.pslitm + '" AND pslotn == "' + item.pslotn + '"')
       data[0].picked = 1
-      
     })
     this.checkFinished()
   }
 
   checkFinished() {
     const { items } = this.state
-    let realm = new Realm({schema: [pickingRealm, itemsRealm]})
+    let realm = new Realm({ schema: [pickingRealm, itemsRealm] })
     let obj = realm.objects(itemsRealm.name)
     let data = obj.filtered('picked == 0')
     if (data.length > 0) {
-      this.setState({ 
+      this.setState({
         item: data[0],
         passing: false,
       })
@@ -104,40 +108,36 @@ class PickingItems extends Component {
   }
 
   render() {
-    const { items, item, no } = this.state
+    const { items, item } = this.state
     return (
       <StyleProvider style={getTheme(material)} >
         {item === null ?
           <Container>
             <Header>
               <Left>
-                <Button transparent onPress={this.cancelPicking.bind(this)}>
-                  <Icon name='ios-trash' />
+                <Button transparent onPress={this.cancelPicking.bind(this)} style={{ width: 50 }}>
+                  <Icon name='md-close' />
                 </Button>
               </Left>
               <Body>
-                <Title style={{ width: 100 }}>{'揀料作業'}</Title>
+                <Title style={{ width: 100 }}>揀料作業</Title>
               </Body>
-              <Right>
-              </Right>
             </Header>
-            <Content>
-              <Text>資料處理中...</Text>
+            <Content style={styles.content}>
+              <Text style={styles.pickingInfo}>資料處理中...</Text>
             </Content>
           </Container>
           :
           <Container>
             <Header>
               <Left>
-                <Button transparent onPress={this.cancelPicking.bind(this)}>
-                  <Icon name='ios-trash' />
+                <Button transparent onPress={this.cancelPicking.bind(this)} style={{ width: 50 }}>
+                  <Icon name='md-close' />
                 </Button>
               </Left>
               <Body>
-                <Title style={{ width: 100 }}>{'揀料 品項' + no + '/' + items.length}</Title>
+                <Title style={{ width: 100 }}>揀料作業</Title>
               </Body>
-              <Right>
-              </Right>
             </Header>
             <Content style={styles.content}>
               <Text style={styles.pickingInfo}>{'倉別: ' + item.pslocn.trim()}</Text>
@@ -145,7 +145,7 @@ class PickingItems extends Component {
               <Text style={styles.scanInfo}>{'料號: ' + item.pslitm.trim()}</Text>
               <Text style={styles.scanInfo}>{'批號: ' + item.pslotn.trim()}</Text>
               <Text style={styles.pickingInfo}>{'揀貨數量: ' + item.pssoqs + ' ' + item.psuom.trim()}</Text>
-              {true && 
+              {true &&
                 <Button block primary large onPress={this.picked.bind(this)}>
                   <Text>確認</Text>
                 </Button>

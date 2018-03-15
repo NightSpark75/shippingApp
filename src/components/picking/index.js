@@ -4,6 +4,7 @@ import axios from 'axios'
 import Realm from 'realm'
 import { pickingRealm, itemsRealm } from '../../realm/schema'
 import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, RefreshControl, ActivityIndicator, View, ListView } from 'react-native'
+import { TouchableHighlight } from 'react-native'
 import { Drawer, Container, Content, StyleProvider, Header, Left, Body, Right, Spinner } from 'native-base'
 import { Button, Title, Icon, Text, List, ListItem } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
@@ -119,7 +120,7 @@ class Picking extends Component {
           <Container>
             <Header>
               <Left>
-                <Button transparent onPress={this.openDrawer.bind(this)}>
+                <Button transparent onPress={this.openDrawer.bind(this)} style={{ width: 50 }}>
                   <Icon name='menu' />
                 </Button>
               </Left>
@@ -137,16 +138,20 @@ class Picking extends Component {
               }
             >
               <ListView
-                enableEmptySections = {true}
+                enableEmptySections={true}
                 style={styles.listView}
                 dataSource={this.state.vs}
                 renderRow={(rowData) => (
-                  <Text
-                    style={styles.listItems}
+                  <TouchableHighlight
+                    underlayColor='rgb(143, 186, 239)'
                     onPress={this.goPickingStart.bind(this, rowData)}
                   >
-                    {'單號:' + rowData.sticu + ' 站碼:' + rowData.ststop}
-                  </Text>
+                    <Text
+                      style={styles.listItems}
+                    >
+                      {'單號:' + rowData.sticu + ' 站碼:' + rowData.ststop}
+                    </Text>
+                  </TouchableHighlight>
                 )}
               />
             </Content>
