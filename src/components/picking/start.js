@@ -3,11 +3,11 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Realm from 'realm'
 import { itemsRealm, pickingRealm } from '../../realm/schema'
-import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, View, ListView } from 'react-native'
-import { Container, Content, StyleProvider, Header, Left, Body, Right } from 'native-base'
-import { Button, Title, Text, Icon, List, ListItem } from 'native-base'
+import { AppRegistry, StyleSheet, ListView, BackHandler } from 'react-native'
+import { Container, Content, StyleProvider, Header, Left, Body } from 'native-base'
+import { Button, Title, Text, Icon } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
-import { toast, loadToken } from '../../lib'
+import { loadToken } from '../../lib'
 import config from '../../config'
 import getTheme from '../../nativeBase/components'
 import material from '../../nativeBase/variables/material'
@@ -26,7 +26,12 @@ class PickingStart extends Component {
   }
 
   componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => this.goBack())
     this.getPickingItems()
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', () => { })
   }
 
   getPickingItems() {
@@ -34,7 +39,7 @@ class PickingStart extends Component {
     const self = this
     const { state } = this.props.navigation
     let token = loadToken()
-    const Auth = 'Bearer ' + token;
+    const Auth = 'Bearer ' + token
     axios.get(config.route.pickingItems + state.params.picking.ststop + '/' + config.date, { headers: { Authorization: Auth } })
       .then(function (response) {
         if (response.code = 200) {
@@ -43,7 +48,6 @@ class PickingStart extends Component {
             isLoading: false,
             vs: ds.cloneWithRows(response.data)
           })
-          self.props.navigation.state.params.unlock();
         } else {
           alert(response.data.error)
         }
@@ -53,7 +57,9 @@ class PickingStart extends Component {
   }
 
   goBack() {
+    this.props.navigation.state.params.unlock();
     this.props.navigation.goBack()
+    return true
   }
 
   setItem(item, index) {

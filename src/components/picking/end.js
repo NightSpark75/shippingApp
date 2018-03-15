@@ -3,13 +3,12 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Realm from 'realm'
 import { itemsRealm, pickingRealm } from '../../realm/schema'
-import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, Alert, View, BackHandler } from 'react-native'
-import { Container, Content, StyleProvider, Header, Left, Body, Right } from 'native-base'
+import { AppRegistry, StyleSheet, Alert, View, BackHandler } from 'react-native'
+import { Container, Content, StyleProvider, Header, Left, Body } from 'native-base'
 import { Button, Title, Text, Icon } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
 import { loadToken } from '../../lib'
 import config from '../../config'
-import Toast from 'react-native-root-toast'
 import getTheme from '../../nativeBase/components'
 import material from '../../nativeBase/variables/material'
 
@@ -30,13 +29,13 @@ class PickingEnd extends Component {
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', () => { })
+    BackHandler.removeEventListener('hardwareBackPress')
   }
 
   getPickingInfo() {
     let realm = new Realm({ schema: [pickingRealm, itemsRealm] })
     let data = realm.objects(pickingRealm.name)
-    this.setState({ 
+    this.setState({
       sticu: data[0].sticu,
       ststop: data[0].ststop,
       staddj: data[0].staddj,
@@ -128,11 +127,9 @@ class PickingEnd extends Component {
         <Container>
           <Header>
             <Left>
-            
               <Button transparent onPress={this.cancelPicking.bind(this)} style={{ width: 50 }}>
                 <Icon name='md-close' />
               </Button>
-            
             </Left>
             <Body>
               <Title>完成揀貨</Title>

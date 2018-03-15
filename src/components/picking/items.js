@@ -3,16 +3,15 @@ import React, { Component } from 'react'
 import Realm from 'realm'
 import { itemsRealm, pickingRealm } from '../../realm/schema'
 import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, Alert, BackHandler } from 'react-native'
-import { Container, Content, StyleProvider, Header, Left, Body, Right } from 'native-base'
-import { Button, Title, Text, Icon } from 'native-base'
-import { Form, Item, Input, Label } from 'native-base'
+import { Container, Content, StyleProvider, Header, Left, Body } from 'native-base'
+import { Button, Title, Text, Icon, Item, Input, Label } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
-import { toast, loadToken } from '../../lib'
-import Toast from 'react-native-root-toast'
+import { toast } from '../../lib'
 import getTheme from '../../nativeBase/components'
 import material from '../../nativeBase/variables/material'
 
 const ScanModule = NativeModules.ScanModule
+const msgOption = ['儲位', '料號', '批號']
 
 class PickingItems extends Component {
   constructor(props) {
@@ -20,15 +19,13 @@ class PickingItems extends Component {
     this.state = {
       items: [],
       pslocn: '',
-      psrmk: '',
-      pslitm: '',
-      pslotn: '',
+      pickValue: [],
       pssoqs: 0,
       psuom: '',
-      scan: 1,
-      s_psrmk: styles.scanInfo,
-      s_pslitm: styles.scanInfo,
-      s_pslotn: styles.scanInfo,
+      scan: 0,
+      scanStyle_0: styles.scanInfo,
+      scanStyle_1: styles.scanInfo,
+      scanStyle_2: styles.scanInfo,
       s_pssoqs: '',
       passing: true,
       message: '',
@@ -36,64 +33,35 @@ class PickingItems extends Component {
   }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', () => this.cancelPicking())
-    DeviceEventEmitter.addListener('onScanBarcode', this.onScanBarcode.bind(this))
-    DeviceEventEmitter.addListener('onRefreshMessage', this.onUpdateMessage)
-    ScanModule.enabledScan()
     let items = this.getAllItems()
-    this.setState({ items: items }, () => this.checkFinished())
+    this.setState({ items: items }, () => {
+      this.checkFinished()
+      BackHandler.addEventListener('hardwareBackPress', () => this.cancelPicking())
+      DeviceEventEmitter.addListener('onScanBarcode', this.onScanBarcode.bind(this))
+      DeviceEventEmitter.addListener('onRefreshMessage', (msg) => toast(msg))
+      ScanModule.enabledScan()
+    })
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', () => { })
-    DeviceEventEmitter.removeListener('onScanBarcode', this.onScanBarcode.bind(this))
-    DeviceEventEmitter.removeListener('onRefreshMessage', this.onUpdateMessage)
+    BackHandler.removeEventListener('hardwareBackPress')
+    DeviceEventEmitter.removeListener('onScanBarcode')
+    DeviceEventEmitter.removeListener('onRefreshMessage')
     ScanModule.disabledScan()
   }
 
-  onUpdateMessage = (str='') => {
-    toast(str)
-  }
-
   onScanBarcode(code) {
-    const { scan, psrmk, pslitm, pslotn } = this.state
-    if (scan === 1) {
-      if (code === psrmk.trim()) {
-        this.setState({
-          s_psrmk: styles.scanInfoSuccess,
-          scan: 2,
-          message: '',
-        })
-      } else {
-        this.setState({ message: '儲位錯誤(' + code + ')' })
-      }
+    const { scan, pickValue } = this.state
+    if (code === pickValue[scan].trim() && scan < 3) {
+      this.setState({
+        ['scanStyle_' + scan]: styles.scanInfoSuccess,
+        scan: scan + 1,
+        message: '',
+      })
     }
-    if (scan === 2) {
-      if (code === pslitm.trim()) {
-        this.setState({
-          s_pslitm: styles.scanInfoSuccess,
-          scan: 3,
-          message: '',
-        })
-      } else {
-        this.setState({ message: '料號錯誤(' + code + ')' })
-      }
+    if (code !== pickValue[scan].trim() && scan < 3) {
+      this.setState({ message: msgOption[scan] + '錯誤(' + code + ')' })
     }
-    if (scan === 3) {
-      if (code === pslotn.trim()) {
-        this.setState({
-          s_pslotn: styles.scanInfoSuccess,
-          scan: 4,
-          message: '',
-        })
-      } else {
-        this.setState({ message: '批號錯誤(' + code + ')' })
-      }
-    }
-  }
-
-  onAmtChange(e) {
-    this.setState({ s_pssoqs: e.nativeEvent.text })
   }
 
   checkAmt() {
@@ -158,11 +126,11 @@ class PickingItems extends Component {
   }
 
   picked() {
-    const { psrmk, pslitm, pslotn } = this.state
+    const { pickValue } = this.state
     let realm = new Realm({ schema: [pickingRealm, itemsRealm] })
     realm.write(() => {
       let obj = realm.objects(itemsRealm.name)
-      let data = obj.filtered('psrmk == "' + psrmk + '" AND pslitm == "' + pslitm + '" AND pslotn == "' + pslotn + '"')
+      let data = obj.filtered('psrmk == "' + pickValue[0] + '" AND pslitm == "' + pickValue[1] + '" AND pslotn == "' + pickValue[2] + '"')
       data[0].picked = 1
     })
     realm.close()
@@ -175,17 +143,19 @@ class PickingItems extends Component {
     let obj = realm.objects(itemsRealm.name)
     let data = obj.filtered('picked == 0')
     if (data.length > 0) {
+      let pickValue = []
+      pickValue.push(data[0].psrmk)
+      pickValue.push(data[0].pslitm)
+      pickValue.push(data[0].pslotn)
       this.setState({
         pslocn: data[0].pslocn,
-        psrmk: data[0].psrmk,
-        pslitm: data[0].pslitm,
-        pslotn: data[0].pslotn,
+        pickValue: pickValue,
         pssoqs: data[0].pssoqs,
         psuom: data[0].psuom,
-        scan: 1,
-        s_psrmk: styles.scanInfo,
-        s_pslitm: styles.scanInfo,
-        s_pslotn: styles.scanInfo,
+        scan: 0,
+        scanStyle_0: styles.scanInfo,
+        scanStyle_1: styles.scanInfo,
+        scanStyle_2: styles.scanInfo,
         s_pssoqs: '',
         passing: false,
       })
@@ -204,10 +174,10 @@ class PickingItems extends Component {
   }
 
   render() {
-    const { items, item, scan, passing, s_pslitm, s_pslotn, s_psrmk, s_pssoqs, message } = this.state
+    const { items, scan, passing, pickValue, s_pssoqs, message } = this.state
     return (
       <StyleProvider style={getTheme(material)} >
-        {item === null ?
+        {pickValue.length === 0 ?
           <Container>
             <Header>
               <Left>
@@ -239,23 +209,21 @@ class PickingItems extends Component {
             </Header>
             <Content style={styles.content}>
               <Text style={styles.pickingInfo}>{'倉別: ' + this.state.pslocn.trim()}</Text>
-              <Text style={s_psrmk}>{'儲位: ' + this.state.psrmk.trim()}</Text>
-              <Text style={s_pslitm}>{'料號: ' + this.state.pslitm.trim()}</Text>
-              <Text style={s_pslotn}>{'批號: ' + this.state.pslotn.trim()}</Text>
+              <Text style={this.state.scanStyle_0}>{'儲位: ' + pickValue[0].trim()}</Text>
+              <Text style={this.state.scanStyle_1}>{'料號: ' + pickValue[1].trim()}</Text>
+              <Text style={this.state.scanStyle_2}>{'批號: ' + pickValue[2].trim()}</Text>
               <Text style={styles.pickingInfo}>{'揀貨數量: ' + this.state.pssoqs + ' ' + this.state.psuom.trim()}</Text>
-              {scan === 4 && !passing &&
-                <Form>
-                  <Item floatingLabel>
-                    <Label>輸入揀貨數量</Label>
-                    <Input
-                      keyboardType="numeric"
-                      onChange={this.onAmtChange.bind(this)}
-                      autoFocus={true}
-                      value={s_pssoqs.toString()}
-                      onSubmitEditing={() => this.checkAmt()}
-                    />
-                  </Item>
-                </Form>
+              {scan === 3 && !passing &&
+                <Item floatingLabel>
+                  <Label>輸入揀貨數量</Label>
+                  <Input
+                    keyboardType="numeric"
+                    onChange={(e) => this.setState({ s_pssoqs: e.nativeEvent.text })}
+                    autoFocus={true}
+                    value={s_pssoqs.toString()}
+                    onSubmitEditing={() => this.checkAmt()}
+                  />
+                </Item>
               }
               {message !== '' &&
                 <Text style={styles.message}>{message}</Text>

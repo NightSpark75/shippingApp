@@ -1,16 +1,12 @@
 'use strict'
 import React, { Component } from 'react'
 import axios from 'axios'
-import { TextInput } from 'react-native'
 import { AppRegistry } from 'react-native'
-import { Container, Header, Content, StyleProvider } from 'native-base'
-import { Form, Item, Input, Left, Body, Right, Title, Label } from 'native-base'
-import { Button, Text, Icon } from 'native-base'
+import { Container, Content, StyleProvider } from 'native-base'
+import { Form, Item, Input, Title, Label, Button, Text } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
 import config from '../../config'
 import { jwtPayload, toast, saveToken } from '../../lib'
-import { connect } from 'react-redux'
-import { userLogin } from '../../actions'
 import Navbar from '../navbar'
 import getTheme from '../../nativeBase/components';
 import material from '../../nativeBase/variables/material';
@@ -24,10 +20,6 @@ class Login extends Component {
       password: '',
       isLoading: false,
     }
-  }
-
-  componentDidMount() {
-    
   }
 
   login() {
@@ -54,10 +46,8 @@ class Login extends Component {
 
   setLoginUser(token) {
     saveToken(token)
-    const { dispatch } = this.props
     const user = jwtPayload(token)
     toast(user.name + '您好...')
-    dispatch(userLogin(user))
   }
 
   loginSuccess() {
@@ -116,12 +106,5 @@ class Login extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { login } = state
-  return {
-    login
-  }
-}
-
-export default connect(mapStateToProps)(withNavigation(Login))
+export default withNavigation(Login)
 AppRegistry.registerComponent('Login', () => Login)

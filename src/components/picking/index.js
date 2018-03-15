@@ -3,12 +3,11 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Realm from 'realm'
 import { pickingRealm, itemsRealm } from '../../realm/schema'
-import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, RefreshControl, ActivityIndicator, View, ListView } from 'react-native'
-import { TouchableHighlight } from 'react-native'
-import { Drawer, Container, Content, StyleProvider, Header, Left, Body, Right, Spinner } from 'native-base'
-import { Button, Title, Icon, Text, List, ListItem } from 'native-base'
+import { AppRegistry, StyleSheet, RefreshControl, View, ListView, TouchableHighlight } from 'react-native'
+import { Drawer, Container, Content, StyleProvider, Header, Left, Body } from 'native-base'
+import { Button, Title, Icon, Text } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
-import { toast, loadToken } from '../../lib'
+import { loadToken } from '../../lib'
 import config from '../../config'
 import getTheme from '../../nativeBase/components'
 import material from '../../nativeBase/variables/material'
@@ -23,9 +22,7 @@ class Picking extends Component {
     this.state = {
       menuShow: false,
       refreshing: false,
-      isLoading: false,
       pickingList: [],
-      goPicking: false,
       vs: ds.cloneWithRows([]),
     };
   }
@@ -76,7 +73,6 @@ class Picking extends Component {
   }
 
   goPickingStart(item) {
-    const self = this
     if (!doubleClick) {
       doubleClick = true
       const navigationAction = NavigationActions.navigate({
@@ -109,7 +105,7 @@ class Picking extends Component {
   }
 
   render() {
-    const { pickingList, message, isLoading } = this.state
+    const { pickingList, message } = this.state
     return (
       <StyleProvider style={getTheme(material)}>
         <Drawer
@@ -147,7 +143,7 @@ class Picking extends Component {
                     onPress={this.goPickingStart.bind(this, rowData)}
                   >
                     <Text
-                      style={rowData.stky2 !== null? styles.listItems: styles.listItemsWar}
+                      style={rowData.stky2 !== null ? styles.listItems : styles.listItemsWar}
                     >
                       {'單號:' + rowData.sticu + ' 站碼:' + rowData.ststop}
                     </Text>
