@@ -125,7 +125,7 @@ class Picking extends Component {
                 </Button>
               </Left>
               <Body>
-                <Title>揀料單列表</Title>
+                <Title>揀貨單列表</Title>
               </Body>
             </Header>
             <Content
@@ -147,7 +147,7 @@ class Picking extends Component {
                     onPress={this.goPickingStart.bind(this, rowData)}
                   >
                     <Text
-                      style={styles.listItems}
+                      style={rowData.stky2 !== null? styles.listItems: styles.listItemsWar}
                     >
                       {'單號:' + rowData.sticu + ' 站碼:' + rowData.ststop}
                     </Text>
@@ -174,6 +174,15 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderBottomWidth: 1,
     borderColor: '#000',
+    padding: 10
+  },
+  listItemsWar: {
+    fontSize: 24,
+    fontWeight: '600',
+    borderStyle: 'solid',
+    borderBottomWidth: 1,
+    borderColor: '#000',
+    color: '#F75000',
     padding: 10
   },
 });

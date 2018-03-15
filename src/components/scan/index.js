@@ -21,10 +21,12 @@ class Scan extends Component {
 
   componentDidMount() {
     DeviceEventEmitter.addListener('onRefreshMessage', this.onUpdateMessage)
+    DeviceEventEmitter.addListener('onScanBarcode', this.onUpdateMessage)
     ScanModule.enabledScan()
   }
   componentWillUnmount() {
     DeviceEventEmitter.removeListener('onRefreshMessage', this.onUpdateMessage)
+    DeviceEventEmitter.removeListener('onScanBarcode', this.onUpdateMessage)
     ScanModule.disabledScan()
   }
 

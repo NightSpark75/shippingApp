@@ -5,7 +5,7 @@ import { Drawer, Container, Content, StyleProvider, Header, Left, Body, Right } 
 import { Button, Title, Icon, Text, List, ListItem } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
 import { connect } from 'react-redux'
-import { removeToken } from '../../lib'
+import { jwtPayload, loadToken, removeToken } from '../../lib'
 import { userLogout } from '../../actions'
 import getTheme from '../../nativeBase/components';
 import material from '../../nativeBase/variables/material';
@@ -14,8 +14,20 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      admin: false
     };
+  }
+
+  componentDidMount() {
+    this.checkAdmin()
+  }
+  
+  checkAdmin() {
+    let token = loadToken()
+    let payload = jwtPayload(token)
+    if (payload.sub = '106013') [
+      this.setState({ admin: true })
+    ]
   }
 
   goPage(page, params={}) {
@@ -60,16 +72,18 @@ class Sidebar extends Component {
         <Container style={{backgroundColor: '#fff', margin: 0}}>
           <Content>
             <List>
-              <ListItem icon onPress={this.goPage.bind(this, 'Scan')}>
-                <Left>
-                  <Icon name="ios-barcode" />
-                </Left>
-                <Body>
-                  <Text>
-                    掃描模組測試
-                  </Text>
-                </Body>
-              </ListItem>
+              {this.state.admin &&
+                <ListItem icon onPress={this.goPage.bind(this, 'Scan')}>
+                  <Left>
+                    <Icon name="ios-barcode" />
+                  </Left>
+                  <Body>
+                    <Text>
+                      掃描模組測試
+                    </Text>
+                  </Body>
+                </ListItem>
+              }
               <ListItem icon onPress={this.logout.bind(this)}>
                 <Left>
                   <Icon name="ios-log-out" />

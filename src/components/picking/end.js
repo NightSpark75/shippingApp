@@ -45,8 +45,8 @@ class PickingEnd extends Component {
 
   cancelPicking() {
     Alert.alert(
-      '放棄揀料',
-      '您確定要放棄揀料？此動作會清除本機上的揀料記錄',
+      '放棄揀貨',
+      '您確定要放棄揀貨？此動作會清除本機上的揀貨記錄',
       [
         { text: '確定', onPress: () => this.goBackPicking() },
         { text: '取消', onPress: () => null },
@@ -107,14 +107,14 @@ class PickingEnd extends Component {
   submitButton() {
     if (this.state.isSubmiting) {
       return (
-        <Button block disabled style={{ margin: 10 }}>
+        <Button block disabled large style={{ margin: 10 }}>
           <Text>處理中...</Text>
         </Button>
       )
     } else {
       return (
-        <Button block primary onPress={this.pickingEnd.bind(this)} style={{ margin: 10 }}>
-          <Text>完成揀料</Text>
+        <Button block primary large onPress={this.pickingEnd.bind(this)} style={{ margin: 10 }}>
+          <Text>完成揀貨</Text>
         </Button>
       )
     }
@@ -128,22 +128,24 @@ class PickingEnd extends Component {
         <Container>
           <Header>
             <Left>
+            
               <Button transparent onPress={this.cancelPicking.bind(this)} style={{ width: 50 }}>
                 <Icon name='md-close' />
               </Button>
+            
             </Left>
             <Body>
-              <Title>完成揀料</Title>
+              <Title>完成揀貨</Title>
             </Body>
           </Header>
           <Content style={styles.content}>
             {ststop !== '' &&
               <View>
-                <Text style={styles.pickingInfo}>{'揀料單號:' + sticu}</Text>
+                <Text style={styles.pickingInfo}>{'揀貨單號:' + sticu}</Text>
                 <Text style={styles.pickingInfo}>{'站碼:' + ststop}</Text>
                 <Text style={styles.pickingInfo}>{'日期:' + staddj.substring(0, 10)}</Text>
                 <Text style={styles.message}>
-                  所有品項已完成，按下按鈕完成揀料...
+                  所有品項已完成，按下按鈕完成揀貨...
                 </Text>
                 {this.submitButton()}
               </View>

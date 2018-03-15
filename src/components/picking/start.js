@@ -121,14 +121,14 @@ class PickingStart extends Component {
   submitButton() {
     if (this.state.isSubmiting) {
       return (
-        <Button block disabled style={{ margin: 10 }}>
+        <Button block disabled large style={{ margin: 10 }}>
           <Text>處理中...</Text>
         </Button>
       )
     } else {
       return (
-        <Button block primary onPress={this.pickingStart.bind(this)} style={{ margin: 10 }}>
-          <Text>開始揀料</Text>
+        <Button block primary large onPress={this.pickingStart.bind(this)} style={{ margin: 10 }}>
+          <Text>開始揀貨</Text>
         </Button>
       )
     }
@@ -148,11 +148,11 @@ class PickingStart extends Component {
               </Button>
             </Left>
             <Body>
-              <Title>揀料確認</Title>
+              <Title>揀貨確認</Title>
             </Body>
           </Header>
           <Content style={styles.content}>
-            <Text style={styles.pickingInfo}>{'揀料單號:' + picking.sticu}</Text>
+            <Text style={styles.pickingInfo}>{'揀貨單號:' + picking.sticu}</Text>
             <Text style={styles.pickingInfo}>{'站碼:' + picking.ststop}</Text>
             <Text style={styles.pickingInfo}>{'日期:' + picking.staddj.substring(0, 10)}</Text>
             <ListView
@@ -164,7 +164,7 @@ class PickingStart extends Component {
               )}
             />
             {this.state.isLoading &&
-              <Text style={styles.pickingInfo}>揀料清單讀取中...</Text>
+              <Text style={styles.pickingInfo}>揀貨清單讀取中...</Text>
             }
             {!this.state.isLoading &&
               this.submitButton()

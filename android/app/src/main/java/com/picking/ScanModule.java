@@ -31,7 +31,7 @@ public class ScanModule extends ReactContextBaseJavaModule {
 			int type = arg1.getIntExtra(datawedge.DATA_TYPE, 0);
 			int length = arg1.getIntExtra(datawedge.DATA_LENGTH, 0);
 			//Toast.makeText(getReactApplicationContext(), Barcode, Toast.LENGTH_SHORT).show();
-			sendEvent(getReactApplicationContext(), "onRefreshMessage", Barcode);
+			sendEvent(getReactApplicationContext(), "onScanBarcode", Barcode);
 		}
 	}
 
