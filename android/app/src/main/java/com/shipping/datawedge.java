@@ -1,4 +1,4 @@
-package com.picking;
+package com.shipping;
 
 public class datawedge {
 

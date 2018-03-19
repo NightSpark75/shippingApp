@@ -1,4 +1,4 @@
-package com.picking;
+package com.shipping;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

@@ -1,4 +1,4 @@
-package com.picking;
+package com.shipping;
 
 import android.app.Application;
 import android.widget.Toast;

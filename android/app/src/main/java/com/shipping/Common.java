@@ -1,4 +1,4 @@
-package com.picking;
+package com.shipping;
 
 import android.app.Activity;
 import android.os.AsyncTask;
