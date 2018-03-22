@@ -3,10 +3,7 @@ import Update from '../components/update'
 import Login from '../components/login'
 import Sample from '../components/sample'
 import SampleDetail from '../components/sample/detail'
-import PickingList from '../components/picking/index'
-import PickingItems from '../components/picking/items'
-import PickingStart from '../components/picking/start'
-import PickingEnd from '../components/picking/end'
+import ShippingInfo from '../components/shipping/index'
 
 export default {
   Scan: {
@@ -44,29 +41,8 @@ export default {
       headerBackTitle: null,
     }),
   },
-  PickingList: {
-    screen: PickingList,
-    navigationOptions: ({ navigation }) => ({
-      header: null,
-      headerBackTitle: null,
-    })
-  },
-  PickingItems: {
-    screen: PickingItems,
-    navigationOptions: ({ navigation }) => ({
-      header: null,
-      headerBackTitle: null,
-    })
-  },
-  PickingStart: {
-    screen: PickingStart,
-    navigationOptions: ({ navigation }) => ({
-      header: null,
-      headerBackTitle: null,
-    })
-  },
-  PickingEnd: {
-    screen: PickingEnd,
+  ShippingInfo: {
+    screen: ShippingInfo,
     navigationOptions: ({ navigation }) => ({
       header: null,
       headerBackTitle: null,

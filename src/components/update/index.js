@@ -124,7 +124,7 @@ class Update extends Component {
 
   goLogin() {
     const { login } = this.state
-    let route = login ? 'PickingList': 'Login'
+    let route = 'ShippingInfo'
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
