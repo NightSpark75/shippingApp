@@ -44,7 +44,6 @@ class Shipping extends Component {
   }
 
   getShippingInfo(spno) {
-    spno = '3005131041'
     toast(spno)
     const self = this
     this.setState({ 
