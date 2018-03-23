@@ -44,6 +44,7 @@ class Shipping extends Component {
   }
 
   getShippingInfo(spno) {
+    spno = '3010223276'
     toast(spno)
     const self = this
     this.setState({ 
@@ -63,7 +64,7 @@ class Shipping extends Component {
           self.setState({ message: response.data.error })
         }
       }).catch(function (error) {
-        self.setState({ message: error.message })
+        self.setState({ message: JSON.stringify(error.response.data.message) })
       })
   }
 
@@ -90,16 +91,15 @@ class Shipping extends Component {
             {isSuccess > 0 ?
               <View>
                 <Text style={styles.pickingInfo}>{'查貨序號:' + shipping.tmy59spno}</Text>
-                <Text style={styles.pickingInfo}>{'訂單日期:' + shipping.tmtrdj}</Text>
-                <Text style={styles.pickingInfo}>{'托運日期:' + shipping.tmaddj}</Text>
-                <Text style={styles.pickingInfo}>{'訂單號碼:' + ''}</Text>
+                <Text style={styles.pickingInfo}>{'訂單日期:' + shipping.tmtrdj.substr(0, 10)}</Text>
+                <Text style={styles.pickingInfo}>{'托運日期:' + shipping.tmaddj.substr(0, 10)}</Text>
                 <Text style={styles.pickingInfo}>{'貨運商號碼:' + shipping.tmcars}</Text>
-                <Text style={styles.pickingInfo}>{'貨運商名稱:' + ''}</Text>
+                <Text style={styles.pickingInfo}>{'貨運商名稱:' + shipping.cars_na}</Text>
                 <Text style={styles.pickingInfo}>{'客戶編號:' + shipping.tman8}</Text>
-                <Text style={styles.pickingInfo}>{'客戶名稱:' + ''}</Text>
+                <Text style={styles.pickingInfo}>{'客戶名稱:' + shipping.tmalph}</Text>
                 <Text style={styles.pickingInfo}>{'件數:' + shipping.tm1in1}</Text>
-                <Text style={styles.pickingInfo}>{'指送時間:' + shipping.tmy59dltm}</Text>
-                <Text style={styles.pickingInfo}>{'指定收件人:' + ''}</Text>
+                <Text style={styles.pickingInfo}>{'指送時間:' + shipping.dltm_na}</Text>
+                <Text style={styles.pickingInfo}>{'指定收件人:' + shipping.tmalph1}</Text>
                 <Button block primary large onPress={this.clearInfo.bind(this)} style={styles.button}>
                   <Text>確認</Text>
                 </Button>
