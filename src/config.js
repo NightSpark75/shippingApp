@@ -26,5 +26,6 @@ export default {
     pickingStart: url + '/api/productWarehouse/picking/start',
     pickingEnd: url + '/api/productWarehouse/picking/end',
     shipping: url + '/api/productWarehouse/shipping/info/',
+    shippingPieces: url + '/api/productWarehouse/shipping/pieces'
   },
 }
