@@ -19,6 +19,7 @@ class Shipping extends Component {
       isSuccess: false,
       isSubmit: false,
       shipping: {},
+      pieces: null,
       message: '請掃描條碼查詢托運資料',
     };
   }
@@ -90,6 +91,7 @@ class Shipping extends Component {
       } else {
         alert(response.data.error)
         self.setState({ isSubmiting: false })
+        toast('確認作業尚未成功，請重新確認一次!')
       }
     }).catch(function (error) {
       alert(error)
@@ -100,6 +102,8 @@ class Shipping extends Component {
   clearInfo() {
     this.setState({ 
       isSuccess: false,
+      isSubmit: false,
+      pieces: null, 
       shipping: {}, 
       message: '請掃描條碼查詢托運資料',
     })
@@ -131,28 +135,26 @@ class Shipping extends Component {
                   <Text style={styles.pickingInfo}>{'貨運商名稱:' + shipping.cars_na}</Text>
                   <Text style={styles.pickingInfo}>{'客戶編號:' + shipping.tman8}</Text>
                   <Text style={styles.pickingInfo}>{'客戶名稱:' + shipping.tmalph}</Text>
-                  <Text style={styles.pickingInfo}>{'件數:' + shipping.tm1in1}</Text>
+                  {/*<Text style={styles.pickingInfo}>{'件數:' + shipping.tm1in1}</Text>*/}
                   <Text style={styles.pickingInfo}>{'指送時間:' + shipping.dltm_na}</Text>
                   <Text style={styles.pickingInfo}>{'指定收件人:' + shipping.tmalph1}</Text>
-                  <Item floatingLabel>
-                    <Label>輸入件數</Label>
-                    <Input
-                      keyboardType="numeric"
-                      onChange={(e) => this.setState({ pieces: e.nativeEvent.text })}
-                      value={pieces}
-                      onSubmitEditing={(e) => { 
-                        if (e.nativeEvent.text !== shipping.tm1in1) {
-                          alert('件數不符，請確認件數...')
-                        }
-                      }}
-                    />
-                  </Item>
-                  {pieces === shipping.tm1in1 && !isSubmit &&
+                  {!shipping.tm1in1 &&
+                    <Item floatingLabel>
+                      <Label>輸入件數</Label>
+                      <Input
+                        keyboardType="numeric"
+                        onChange={(e) => this.setState({ pieces: e.nativeEvent.text })}
+                        value={pieces}
+                        onSubmitEditing={this.savePieces.bind(this)}
+                      />
+                    </Item>
+                  }
+                  {pieces && !isSubmit &&
                     <Button block primary large onPress={this.savePieces.bind(this)} style={styles.button}>
                       <Text>確認</Text>
                     </Button>
                   }
-                  {pieces === shipping.tm1in1 && isSubmit &&
+                  {pieces && isSubmit &&
                     <Button block disabled large style={styles.button}>
                       <Text>資料處理中...</Text>
                     </Button>
