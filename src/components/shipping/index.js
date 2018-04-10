@@ -47,7 +47,6 @@ class Shipping extends Component {
   }
 
   getShippingInfo(spno) {
-    spno = '3010223276'
     toast(spno)
     const self = this
     this.setState({ 
@@ -76,12 +75,13 @@ class Shipping extends Component {
   savePieces() {
     let self = this
     let { pieces, shipping } = this.state
+    if (pieces === null)  return
     this.setState({ isSubmit: true })
     let token = loadToken()
     const Auth = 'Bearer ' + token
     let formData = new FormData()
     formData.append('spno', shipping.tmy59spno)
-    formData.append('date', config.date)
+    formData.append('date', shipping.tmtrdj)
     formData.append('pieces', pieces)
     axios.post(config.route.shippingPieces, formData, { headers: { Authorization: Auth } })
     .then(function (response) {
@@ -90,12 +90,12 @@ class Shipping extends Component {
         self.clearInfo()
       } else {
         alert(response.data.error)
-        self.setState({ isSubmiting: false })
+        self.setState({ isSubmit: false })
         toast('確認作業尚未成功，請重新確認一次!')
       }
     }).catch(function (error) {
       alert(error)
-      self.setState({ isSubmiting: false })
+      self.setState({ isSubmit: false })
     })
   }
 
@@ -135,15 +135,18 @@ class Shipping extends Component {
                   <Text style={styles.pickingInfo}>{'貨運商名稱:' + shipping.cars_na}</Text>
                   <Text style={styles.pickingInfo}>{'客戶編號:' + shipping.tman8}</Text>
                   <Text style={styles.pickingInfo}>{'客戶名稱:' + shipping.tmalph}</Text>
-                  {/*<Text style={styles.pickingInfo}>{'件數:' + shipping.tm1in1}</Text>*/}
+                  {Number(shipping.tm1in1) > 0 &&
+                    <Text style={styles.pickingInfo}>{'件數:' + shipping.tm1in1}</Text>
+                  }
                   <Text style={styles.pickingInfo}>{'指送時間:' + shipping.dltm_na}</Text>
                   <Text style={styles.pickingInfo}>{'指定收件人:' + shipping.tmalph1}</Text>
-                  {!shipping.tm1in1 &&
+                  {Number(shipping.tm1in1) === 0 &&
                     <Item floatingLabel>
                       <Label>輸入件數</Label>
                       <Input
                         keyboardType="numeric"
                         onChange={(e) => this.setState({ pieces: e.nativeEvent.text })}
+                        autoFocus={true}
                         value={pieces}
                         onSubmitEditing={this.savePieces.bind(this)}
                       />
@@ -189,20 +192,3 @@ const styles = StyleSheet.create({
 
 export default withNavigation(Shipping)
 AppRegistry.registerComponent('Shipping', () => Shipping);
-
-/*
-<Text style={styles.pickingInfo}>{'查貨序號:' + shipping.tmy59spno}</Text>
-                <Text style={styles.pickingInfo}>{'訂單日期:' + shipping.tmtrdj}</Text>
-                <Text style={styles.pickingInfo}>{'托運日期:' + shipping.tmaddj}</Text>
-                <Text style={styles.pickingInfo}>{'訂單號碼:' + ''}</Text>
-                <Text style={styles.pickingInfo}>{'貨運商號碼:' + shipping.tmcars}</Text>
-                <Text style={styles.pickingInfo}>{'貨運商名稱:' + ''}</Text>
-                <Text style={styles.pickingInfo}>{'客戶編號:' + shipping.tman8}</Text>
-                <Text style={styles.pickingInfo}>{'客戶名稱:' + shipping.staddj}</Text>
-                <Text style={styles.pickingInfo}>{'件數:' + shipping.tm1in1}</Text>
-                <Text style={styles.pickingInfo}>{'指送時間:' + shipping.tmy59dltm}</Text>
-                <Text style={styles.pickingInfo}>{'指定收件人:' + ''}</Text>
-                <Button block primary large onPress={this.clearInfo.bind(this)}>
-                  <Text>確認</Text>
-                </Button>
-*/
