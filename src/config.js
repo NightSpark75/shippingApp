@@ -1,12 +1,12 @@
 const app_name = 'pickingApp'
 const app_number = '203'
 const major = '000'
-const minor = '00'
-const build = '01'
+const minor = '01'
+const build = '03'
 const protocol = 'http'
 const host = '172.17.100.51'
 const url = protocol + '://' + host
-const dt = new Date()
+const dt = new Date('2013/06/29')
 const date = dt.getFullYear() + (dt.getMonth() + 1 < 10 ? '0' : '') + (dt.getMonth() + 1) + (dt.getDate() < 10 ? '0' : '') + dt.getDate()
 
 export default {
