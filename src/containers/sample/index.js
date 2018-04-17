@@ -4,7 +4,6 @@ import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter } from 'reac
 import { Drawer, Container, Content, StyleProvider, Header, Left, Body, Right } from 'native-base'
 import { Button, Title, Icon, Text, List, ListItem } from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
-import { connect } from 'react-redux'
 import { toast } from '../../lib'
 import getTheme from '../../nativeBase/components'
 import material from '../../nativeBase/variables/material'
@@ -114,12 +113,5 @@ const list = [
   },
 ]
 
-function mapStateToProps(state) {
-  const { login } = state
-  return {
-    login
-  }
-}
-
-export default connect(mapStateToProps)(withNavigation(Sample))
+export default withNavigation(Sample)
 AppRegistry.registerComponent('Sample', () => Sample);

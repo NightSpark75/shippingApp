@@ -9,9 +9,7 @@ import RNFS from 'react-native-fs'
 import config from '../../config'
 import RNRestart from 'react-native-restart'
 import { NativeModules } from 'react-native'
-import { connect } from 'react-redux'
 import { jwtPayload, saveToken, loadToken, removeToken, LocalStorage } from '../../lib'
-import { userLogin } from '../../actions'
 
 const VERSION = config.version
 const VERSION_NUMBER = config.version_number
@@ -76,7 +74,6 @@ class Update extends Component {
     const { dispatch } = this.props
     saveToken(token)
     payload = jwtPayload(token)
-    dispatch(userLogin(payload))
     this.setState({login: true})
   }
   
@@ -189,12 +186,5 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps(state) {
-	const { login } = state
-	return {
-		login
-	}
-}
-
-export default connect(mapStateToProps)(withNavigation(Update))
+export default withNavigation(Update)
 AppRegistry.registerComponent('Update', () => Update)

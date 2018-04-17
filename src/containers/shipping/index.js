@@ -2,13 +2,30 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, AppState } from 'react-native'
-import { StyleProvider, Drawer, Container, Content, Header, Left, Body, View, Button, Title, Text, Label, Input, Item } from 'native-base'
+import { 
+  StyleProvider, 
+  Drawer, 
+  Container, 
+  Content, 
+  Header, 
+  Left, 
+  Body, 
+  View, 
+  Button, 
+  Title, 
+  Text, 
+  Label, 
+  Input, 
+  Item, 
+  Icon 
+} from 'native-base'
 import { NavigationActions, withNavigation } from 'react-navigation'
 import config from '../../config'
 import { toast, loadToken } from '../../lib'
 import getTheme from '../../nativeBase/components'
 import material from '../../nativeBase/variables/material'
 import Sidebar from '../sidebar'
+import { savePieces, getShippingInfo } from '../../api'
 
 const ScanModule = NativeModules.ScanModule
 
@@ -21,22 +38,24 @@ class Shipping extends Component {
       shipping: {},
       pieces: null,
       message: '請掃描條碼查詢托運資料',
-    };
+    }
+
+    this.savePieces = this.savePieces.bind(this)
+    this.getShippingInfo = this.getShippingInfo.bind(this)
+    this.openDrawer = this.openDrawer.bind(this)
+    this.closeDrawer = this.closeDrawer.bind(this)
   }
 
   componentDidMount() {
     AppState.addEventListener('change', this.thisAppState.bind(this))
-    DeviceEventEmitter.addListener('onScanBarcode', this.getShippingInfo.bind(this))
+    DeviceEventEmitter.addListener('onScanBarcode', this.getShippingInfo)
     DeviceEventEmitter.addListener('onRefreshMessage', (msg) => toast(msg))
     ScanModule.enabledScan()
   }
 
   thisAppState(appState) {
-    if (appState === 'active') {
-      ScanModule.enabledScan()
-    } else {
-      ScanModule.disabledScan()
-    }
+    if (appState === 'active') ScanModule.enabledScan()
+    if (appState !== 'active') ScanModule.disabledScan()
   }
 
   componentWillUnmount() {
@@ -48,28 +67,22 @@ class Shipping extends Component {
 
   getShippingInfo(spno) {
     toast(spno)
-    const self = this
     this.setState({ 
       isSuccess: false, 
       shipping: {},
       message: '資料處理中...',
     })
-    let token = loadToken()
-    const Auth = 'Bearer ' + token
-    axios.get(config.route.shipping + spno + '/' + config.date, { headers: { Authorization: Auth } })
-      .then(function (response) {
-        if (response.code = 200) {
-          self.setState({
-            shipping: response.data,
-            isSuccess: true,
-            message: ''
-          })
-        } else {
-          self.setState({ message: response.data.error })
-        }
-      }).catch(function (error) {
-        self.setState({ message: JSON.stringify(error.response.data.message) })
+    const success = (res) => {
+      this.setState({
+        shipping: res.data,
+        isSuccess: true,
+        message: ''
       })
+    }
+    const error = (err) => {
+      this.setState({ message: JSON.stringify(err.response.data.message) })
+    }
+    getShippingInfo(spno, success, error)
   }
 
   savePieces() {
@@ -77,36 +90,34 @@ class Shipping extends Component {
     let { pieces, shipping } = this.state
     if (pieces === null)  return
     this.setState({ isSubmit: true })
-    let token = loadToken()
-    const Auth = 'Bearer ' + token
-    let formData = new FormData()
-    formData.append('spno', shipping.tmy59spno)
-    formData.append('date', shipping.tmtrdj)
-    formData.append('pieces', pieces)
-    axios.post(config.route.shippingPieces, formData, { headers: { Authorization: Auth } })
-    .then(function (response) {
-      if (response.code = 200) {
-        toast('托運確認作業完成')
-        self.clearInfo()
-      } else {
-        alert(response.data.error)
-        self.setState({ isSubmit: false })
-        toast('確認作業尚未成功，請重新確認一次!')
-      }
-    }).catch(function (error) {
-      alert(error)
-      self.setState({ isSubmit: false })
-    })
+    const data = {
+      tmy59spno: shipping.tmy59spno,
+      tmtrdj: shipping.tmtrdj,
+      pieces: pieces,
+    }
+    const success = (res) => {
+      toast('托運確認作業完成')
+      this.setState({ 
+        isSuccess: false,
+        isSubmit: false,
+        pieces: null, 
+        shipping: {}, 
+        message: '請掃描條碼查詢托運資料',
+      })
+    }
+    const error = (err) => {
+      alert(err)
+      this.setState({ isSubmit: false })
+    }
+    savePieces(data, success, error)
   }
 
-  clearInfo() {
-    this.setState({ 
-      isSuccess: false,
-      isSubmit: false,
-      pieces: null, 
-      shipping: {}, 
-      message: '請掃描條碼查詢托運資料',
-    })
+  openDrawer() {
+    this.drawer._root.open()
+  }
+
+  closeDrawer() {
+    this.drawer._root.close()
   }
 
   render() {
@@ -116,11 +127,15 @@ class Shipping extends Component {
         <Drawer
           ref={(ref) => { this.drawer = ref; }}
           content={<Sidebar navigator={this.navigator} />}
-          onClose={() => this.closeDrawer()}
+          onClose={this.closeDrawer}
         >
           <Container>
             <Header>
-              <Left></Left>
+              <Left>
+                <Button transparent onPress={this.openDrawer} style={{ width: 50 }}>
+                  <Icon name='menu' />
+                </Button>
+              </Left>
               <Body>
                 <Title>托運單確認</Title>
               </Body>
@@ -146,14 +161,13 @@ class Shipping extends Component {
                       <Input
                         keyboardType="numeric"
                         onChange={(e) => this.setState({ pieces: e.nativeEvent.text })}
-                        autoFocus={true}
                         value={pieces}
-                        onSubmitEditing={this.savePieces.bind(this)}
+                        onSubmitEditing={this.savePieces}
                       />
                     </Item>
                   }
                   {pieces && !isSubmit &&
-                    <Button block primary large onPress={this.savePieces.bind(this)} style={styles.button}>
+                    <Button block primary large onPress={this.savePieces} style={styles.button}>
                       <Text>確認</Text>
                     </Button>
                   }
