@@ -16,10 +16,6 @@ const VERSION_NUMBER = config.version_number
 const URL_VERSION = config.url_version
 const URL_DOWNLOAD = config.url_download
 
-let token = ''
-let payload = {}
-let m = ''
-
 class Update extends Component {
   constructor(props) {
     super(props)
@@ -39,14 +35,14 @@ class Update extends Component {
   }
 
   async checkLogin() {
-    token = loadToken()
-    payload = jwtPayload(token)
+    let token = loadToken()
+    let payload = jwtPayload(token)
     if (payload) {
-      this.checkTokenExp()
+      this.checkTokenExp(payload, token)
     }
   }
 
-  checkTokenExp() {
+  checkTokenExp(payload, token) {
     if (payload.exp*1000 < new Date().getTime()) {
       this.refreshToken(token)
     } else {
