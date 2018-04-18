@@ -2,22 +2,22 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { AppRegistry, StyleSheet, NativeModules, DeviceEventEmitter, AppState } from 'react-native'
-import { 
-  StyleProvider, 
-  Drawer, 
-  Container, 
-  Content, 
-  Header, 
-  Left, 
-  Body, 
-  View, 
-  Button, 
-  Title, 
-  Text, 
-  Label, 
-  Input, 
-  Item, 
-  Icon 
+import {
+  StyleProvider,
+  Drawer,
+  Container,
+  Content,
+  Header,
+  Left,
+  Body,
+  View,
+  Button,
+  Title,
+  Text,
+  Label,
+  Input,
+  Item,
+  Icon
 } from 'native-base'
 import { withNavigation } from 'react-navigation'
 import config from '../../config'
@@ -68,8 +68,8 @@ class Shipping extends Component {
   getShippingInfo(spno) {
     spno = spno.substring(1, 11)
     toast(spno)
-    this.setState({ 
-      isSuccess: false, 
+    this.setState({
+      isSuccess: false,
       shipping: {},
       message: '資料處理中...',
     })
@@ -89,7 +89,7 @@ class Shipping extends Component {
   savePieces() {
     let self = this
     let { pieces, shipping } = this.state
-    if (pieces === null)  return
+    if (pieces === null) return
     this.setState({ isSubmit: true })
     const data = {
       tmy59spno: shipping.tmy59spno,
@@ -98,11 +98,11 @@ class Shipping extends Component {
     }
     const success = (res) => {
       toast('托運確認作業完成')
-      this.setState({ 
+      this.setState({
         isSuccess: false,
         isSubmit: false,
-        pieces: null, 
-        shipping: {}, 
+        pieces: null,
+        shipping: {},
         message: '請掃描條碼查詢托運資料',
       })
     }
@@ -178,12 +178,12 @@ class Shipping extends Component {
                     </Button>
                   }
                 </View>
-              :
+                :
                 <Text style={styles.message}>{message}</Text>
               }
             </Content>
           </Container>
-          </Drawer>
+        </Drawer>
       </StyleProvider>
     )
   }

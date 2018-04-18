@@ -8,6 +8,7 @@ const host = '172.17.100.51'
 const url = protocol + '://' + host
 const dt = new Date()
 const date = dt.getFullYear() + (dt.getMonth() + 1 < 10 ? '0' : '') + (dt.getMonth() + 1) + (dt.getDate() < 10 ? '0' : '') + dt.getDate()
+const programID = 'MPMF0020'
 
 export default {
   date: date,
@@ -17,6 +18,7 @@ export default {
   version_number: parseInt(app_number + major + minor + build),
   url_version: 'http://172.17.100.51/api/native/pad/bundle/version/' + app_number,
   url_download: 'http://172.17.100.51/api/native/pad/bundle/download/' + app_number,
+  programID: programID,
 
   route: {
     login: url + '/api/jwt/login',
