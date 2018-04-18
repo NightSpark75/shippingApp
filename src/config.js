@@ -1,8 +1,8 @@
 const app_name = 'pickingApp'
 const app_number = '203'
 const major = '000'
-const minor = '01'
-const build = '09'
+const minor = '02'
+const build = '01'
 const protocol = 'http'
 const host = '172.17.100.51'
 const url = protocol + '://' + host
