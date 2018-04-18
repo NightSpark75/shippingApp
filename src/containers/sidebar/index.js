@@ -1,6 +1,7 @@
 'use strict'
 import React, { Component } from 'react'
 import { AppRegistry } from 'react-native'
+import { withNavigation } from 'react-navigation'
 import { 
   Drawer, 
   Container, 
@@ -21,7 +22,7 @@ import { removeToken, confirm, navigationReset, navigationGo } from '../../lib'
 import getTheme from '../../nativeBase/components';
 import material from '../../nativeBase/variables/material';
 
-export default class Sidebar extends Component {
+class Sidebar extends Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -67,4 +68,5 @@ export default class Sidebar extends Component {
   }
 }
 
+export default withNavigation(Sidebar)
 AppRegistry.registerComponent('Sidebar', () => Sidebar)

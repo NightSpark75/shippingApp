@@ -19,7 +19,7 @@ import {
   Item, 
   Icon 
 } from 'native-base'
-import { NavigationActions, withNavigation } from 'react-navigation'
+import { withNavigation } from 'react-navigation'
 import config from '../../config'
 import { toast, loadToken } from '../../lib'
 import getTheme from '../../nativeBase/components'
@@ -66,6 +66,7 @@ class Shipping extends Component {
   }
 
   getShippingInfo(spno) {
+    spno = spno.substring(1, 11)
     toast(spno)
     this.setState({ 
       isSuccess: false, 

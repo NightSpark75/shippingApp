@@ -14,6 +14,7 @@ import {
   Button, 
   Text
 } from 'native-base'
+import { withNavigation } from 'react-navigation'
 import config from '../../config'
 import { jwtPayload, toast, saveToken, navigationReset } from '../../lib'
 import { login } from '../../api'
@@ -21,7 +22,7 @@ import Navbar from '../navbar'
 import getTheme from '../../nativeBase/components';
 import material from '../../nativeBase/variables/material';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -105,4 +106,5 @@ export default class Login extends Component {
   }
 }
 
+export default withNavigation(Login)
 AppRegistry.registerComponent('Login', () => Login)

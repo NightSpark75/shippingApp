@@ -3,13 +3,13 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { AppRegistry, StyleSheet, Text, View, Button, Alert } from 'react-native'
 import { Toast } from 'native-base'
-import { NavigationActions, withNavigation } from 'react-navigation'
+import { withNavigation } from 'react-navigation'
 import FileTransfer from '@remobile/react-native-file-transfer'
 import RNFS from 'react-native-fs'
 import config from '../../config'
 import RNRestart from 'react-native-restart'
 import { NativeModules } from 'react-native'
-import { jwtPayload, saveToken, loadToken, removeToken, LocalStorage } from '../../lib'
+import { jwtPayload, saveToken, loadToken, removeToken, LocalStorage, navigationReset } from '../../lib'
 
 const VERSION = config.version
 const VERSION_NUMBER = config.version_number
@@ -118,15 +118,7 @@ class Update extends Component {
   goLogin() {
     const { login } = this.state
     let route = login ? 'ShippingInfo': 'Login'
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({
-          routeName: route,
-        })
-      ]
-    })
-    this.props.navigation.dispatch(resetAction)
+    navigationReset(this, route)
   }
 
   goRestart() {
